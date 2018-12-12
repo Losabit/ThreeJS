@@ -29,11 +29,12 @@
 		</style>
 	</head>
 	<body>
-
+		<div id="container"></div>
 		<script src="three.js"></script>
 		<script src="OrbitControls.js"></script>
 		<script src="dat.gui.min.js"></script>
 		<script src="WebGL.js"></script>
+		<script src="stats.min.js"></script>
 
 		<script>
 			if ( WEBGL.isWebGLAvailable() === false ) {
@@ -43,6 +44,7 @@
 			var spotLight, lightHelper, shadowCameraHelper;
 			var gui;
 			function init() {
+				var container = document.getElementById( 'container' );
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
@@ -70,7 +72,9 @@
 				mesh.rotation.x = - Math.PI * 0.5;
 				mesh.receiveShadow = true;
 				scene.add( mesh );
-				makeTemple(300,20,20,0,0);
+				makeTemple(300,20,30,50,-100);
+				stats = new Stats();
+				container.appendChild( stats.dom );
 				controls.target.copy( mesh.position );
 				controls.update();
 				window.addEventListener( 'resize', onResize, false );
@@ -127,6 +131,7 @@
 
 			function animate() {
 				requestAnimationFrame( animate );
+				stats.update();
 				t += 0.1;
 				if(t > 0){
 					meshSun.position.y = 1000*Math.sin(t * 0.01);
@@ -140,8 +145,11 @@
 					spotLightMoon.position.z = -1000*Math.cos(t * 0.01);
 
 					if(Math.sin(t*0.01) > 0.4)
+					{
 						hemiLight.intensity = Math.sin(t* 0.01);
-					else{
+					}
+					else
+					{
 						hemiLight.intensity = 0.4;
 					}
 				}
@@ -149,7 +157,7 @@
 			}
 
 			function makeTemple(size,sizediff,hauteur,posx,posz){
-				var texture = new THREE.TextureLoader().load('images/temple.jpg');
+				var texture = new THREE.TextureLoader().load('images/templeMousse.jpg');
 				var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
 				var geometry = new THREE.BoxBufferGeometry( size, hauteur, size );
 				var base = new THREE.Mesh( geometry, material );
@@ -158,20 +166,21 @@
 				baseTemple(1,base,size,sizediff,hauteur,posx,posz);
 
 				var hypothenuse = Math.sqrt(Math.pow(hauteur * 9,2) + Math.pow(sizediff * 4,2));
-				var geometry = new THREE.BoxBufferGeometry( 10, hypothenuse, size/7 );
+				var geometry = new THREE.BoxBufferGeometry( 10, hypothenuse, size/6 );
 				var rampe = new THREE.Mesh( geometry, material );
-				rampe.position.set((size - (4*20))/2, hauteur * (9/2), posz );
+				rampe.position.set(posx + (size - (4*20))/2, hauteur * 4, posz );
 				var angle = Math.acos((sizediff * 4) / hypothenuse)/2 ;
-				rampe.rotation.set(0, 0, angle);
+				rampe.rotation.set(0, 0, angle - 0.1);
 				rampe.castShadow = true;
-				escalierTemple(1,rampe,size,sizediff,hauteur,posz,angle);
+				escalierTemple(1,rampe,size,sizediff,hauteur,posx,posz);
+				hautTemple(size,sizediff,hauteur,posx,posz);
 
 			}
 
 			function baseTemple(it,base,size,sizediff,hauteur,posx,posz){
 				scene.add( base );
 				if(it < 9){
-					var texture = new THREE.TextureLoader().load('images/temple.jpg');
+					var texture = new THREE.TextureLoader().load('images/templeMousse.jpg');
 					var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
 					var geometry = new THREE.BoxBufferGeometry( size-sizediff, hauteur, size-sizediff );
 					var mesh = new THREE.Mesh( geometry, material );
@@ -184,31 +193,41 @@
 			function escalierTemple(it,rampe,size,sizediff,hauteur,posx,posz){
 				scene.add( rampe );
 				if(it < 4){
-					var texture = new THREE.TextureLoader().load('images/temple.jpg');
+					var texture = new THREE.TextureLoader().load('images/templeMousse.jpg');
 					var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
 					var hypothenuse = Math.sqrt(Math.pow(hauteur * 9,2) + Math.pow(sizediff * 4,2));
-					var geometry = new THREE.BoxBufferGeometry( 10, hypothenuse, size/7 );
+					var geometry = new THREE.BoxBufferGeometry( 10, hypothenuse, size/6 );
 					var mesh = new THREE.Mesh( geometry, material );
 					if(it == 1){
-						var x = (-size + (4*20))/2;
+						var x = (-size + (4*20))/2 + posx;
 						rotx = 0;
 					}
 					else if(it == 2){
 						var x = posx;
 						var rotx = Math.PI / 2;
-						posz = (size - (4*20))/2;
+						posz = (size - (4*20))/2 + posz;
 					}
 					else{
 						var x = posx;
 						var rotx = -Math.PI / 2;
 						posz = (-size + (4*20))/2;
 					}
-					mesh.position.set(x, hauteur * (9/2), posz );
+					mesh.position.set(x, hauteur * 4, posz );
 					var angle = Math.acos((sizediff * 4) / hypothenuse)/2 ;
-					mesh.rotation.set(0, rotx, -angle);
+					mesh.rotation.set(0, rotx, -angle + 0.1);
 					mesh.castShadow = true;
 					escalierTemple(it+1,mesh,size,sizediff,hauteur,posx,posz);
 				}
+			}
+
+			function hautTemple(size,sizediff,hauteur,posx,posz){
+				var texture = new THREE.TextureLoader().load('images/templeMousse.jpg');
+				var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
+				var geometry = new THREE.BoxBufferGeometry( size - (10 * sizediff), hauteur * 3, size - (10 * sizediff));
+				var haut = new THREE.Mesh( geometry, material );
+				haut.position.set( posx, hauteur * 9, posz );
+				haut.castShadow = true;
+				scene.add(haut);
 			}
 
 			function onResize() {
