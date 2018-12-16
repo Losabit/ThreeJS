@@ -101,9 +101,6 @@ function init() {
   makeSun(2000,1000,2000);
   makeMoon(2000,-1000,-2000);
 
-
-
-
     var loader = new THREE.ObjectLoader();
     loader.load("models/coconut-tree.json",
         function ( obj ) {
@@ -126,10 +123,6 @@ function init() {
         }
     );
 
-
-
-
-
   hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.7 );
   scene.add( hemiLight );
   var material = new THREE.MeshPhongMaterial( { color: 0x808080, dithering: true } );
@@ -150,7 +143,6 @@ function init() {
 
   var onKeyDown = function ( event ) {
     switch ( event.keyCode ) {
-
       case 38: // up
       case 90: // z
       case 15:
@@ -181,9 +173,7 @@ function init() {
   };
 
   var onKeyUp = function ( event ) {
-
     switch( event.keyCode ) {
-
       case 38: // up
       case 90: // z
       case 15:
@@ -204,14 +194,11 @@ function init() {
       case 68: // d
         moveRight = false;
         break;
-
     }
-
   };
 
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
-
   raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 
   // floor
@@ -220,24 +207,19 @@ function init() {
   floorGeometry.rotateX( - Math.PI / 2 );
 
   for ( var i = 0, l = floorGeometry.faces.length; i < l; i ++ ) {
-
     var face = floorGeometry.faces[ i ];
     face.vertexColors[ 0 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
     face.vertexColors[ 1 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
     face.vertexColors[ 2 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-
   }
 
   var floorMaterial = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
-
   var floor = new THREE.Mesh( floorGeometry, floorMaterial );
   scene.add( floor );
-
   renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
-
   window.addEventListener( 'resize', onWindowResize, false );
 }
 
@@ -284,33 +266,23 @@ function makeMoon(posx, posy, posz){
   scene.add( spotLightMoon );
 }
 
-
-
-
 function onWindowResize() {
-
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-
   renderer.setSize( window.innerWidth, window.innerHeight );
-
 }
 
 var t = 0;
 
 function animate() {
-
   requestAnimationFrame( animate );
-
-
-//  stats.update();
+  stats.update();
   t += 0.1;
   if(t > 0){
     meshSun.position.y = 1000*Math.sin(t * 0.01);
     meshSun.position.z = 1000*Math.cos(t * 0.01);
     spotLightSun.position.y = 1000*Math.sin(t* 0.01);
     spotLightSun.position.z = 1000*Math.cos(t * 0.01);
-
     meshMoon.position.y = -1000*Math.sin(t * 0.01);
     meshMoon.position.z = -1000*Math.cos(t * 0.01);
     spotLightMoon.position.y = -1000*Math.sin(t* 0.01);
@@ -326,81 +298,57 @@ function animate() {
     }
   }
 
-
-
   if ( controlsEnabled === true ) {
-
     raycaster.ray.origin.copy( controls.getObject().position );
     raycaster.ray.origin.y -= 10;
-
     var intersections = raycaster.intersectObjects( objects );
-
     var onObject = intersections.length > 0;
-
     var time = performance.now();
     var delta = ( time - prevTime ) / 1000; //C'est ici qu'on change la vitesse de déplacement
-
     velocity.x -= velocity.x * 10.0 * delta;
     velocity.z -= velocity.z * 10.0 * delta;
-
     velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
-
     direction.z = Number( moveForward ) - Number( moveBackward );
     direction.x = Number( moveLeft ) - Number( moveRight );
     direction.normalize(); // this ensures consistent movements in all directions
 
-
-
-
-    if ( controls.getObject().position.x > 250) {
+    if (controls.getObject().position.x > 250) {
       velocity.x = 0;
       moveRight = false;
-   }
-
-    if ( controls.getObject().position.x < -250 ) {
-
+    }
+    if (controls.getObject().position.x < -250) {
       velocity.x = 0;
       moveLeft = false;
     }
-
-    if ( controls.getObject().position.z < -400 ) {
+    if (controls.getObject().position.z < -400) {
       velocity.z = 0;
       moveForward = false;
-   }
-   if ( controls.getObject().position.z > 480 ) {
+    }
+    if (controls.getObject().position.z > 480) {
       velocity.z = 0;
       moveBackward = false;
     }
-
-
-
-
-
-    if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
-    if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
-
+    if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
+    if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
     if ( onObject === true ) {
-
       velocity.y = Math.max( 0, velocity.y );
       canJump = true;
-
     }
-
     controls.getObject().translateX( velocity.x * delta );
     controls.getObject().translateY( velocity.y * delta );
     controls.getObject().translateZ( velocity.z * delta );
 
     if ( controls.getObject().position.y < 10 ) {
-
       velocity.y = 0;
       controls.getObject().position.y = 10;
-
       canJump = true;
     }
     prevTime = time;
   }
   renderer.render( scene, camera );
 }
+
+/////////FUNCTIONS TEMPLE///////////
 
 function makeTemple(size,sizediff,hauteur,posx,posz){
   var texture = new THREE.TextureLoader().load('images/templeMousse.jpg');
@@ -421,8 +369,8 @@ function makeTemple(size,sizediff,hauteur,posx,posz){
   rampe.castShadow = true;
   escalierTemple(1,rampe,size,sizediff,hauteur,posx,posz);
   hautTemple(size,sizediff,hauteur,posx,posz);
-
 }
+
 function baseTemple(it,base,size,sizediff,hauteur,posx,posz){
   scene.add( base );
   if(it < 9){
