@@ -4,6 +4,7 @@ if ( WEBGL.isWebGLAvailable() === false ) {
 var renderer, scene, camera;
 var spotLight, lightHelper, shadowCameraHelper;
 var gui;
+var waterFall;
 
 function init() {
   var container = document.getElementById( 'container' );

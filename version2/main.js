@@ -3,6 +3,7 @@
 
 var camera, scene, renderer, controls;
 var spotLight, lightHelper, shadowCameraHelper;
+var waterFall;
 var gui;
 var objects = [];
 var raycaster;
@@ -97,13 +98,22 @@ function init() {
   makeSun(2000,1000,2000);
   makeMoon(2000,-1000,-2000);
 
+  var loadingManager = new THREE.LoadingManager( function () {
+    scene.add( waterFall );
+  } );
+  // collada
+  var loader = new THREE.ColladaLoader( loadingManager );
+  loader.load('collada/tree1.dae', function ( collada ) {
+    waterFall = collada.scene;
+  } );
+
     var loader = new THREE.ObjectLoader();
-    loader.load("models/coconut-tree.json",
+    loader.load("waterFall.dae",
         function ( obj ) {
             obj.scale.set(1000,1000,1000);
-            obj.position.x += 0;
-            obj.position.y += 0;
-            obj.position.z+= 0;
+            obj.position.x += 20;
+            obj.position.y += 20;
+            obj.position.z+= 20;
   //          obj.rotation.y += 0;
             obj.castShadow = true;
             obj.receiveShadow = true;
