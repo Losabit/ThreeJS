@@ -370,6 +370,8 @@ var controller = new function() {
      this.position2X = 0;
      this.position2Y = 0;
      this.position2Z = 0;
+     this.speed = 0;
+
 
    }();
 
@@ -395,6 +397,16 @@ function buildGui() {
     f3.add(controller, 'position2Z', -2000, 2000).onChange( function() {
       meshSun.position.z = (controller.position2Z);
     });
+    var f1 = gui.addFolder('Cycle Jour/Nuit');
+      f1.add(controller,'speed',0.01,1).onChange(function(){
+        velocity.x-= velocity.x *10 *(controller.speed);
+        velocity.y-= 9.8 * 100 *(controller.speed);
+        velocity.z -= velocity.z*10 * (controller.speed);
+
+
+      });
+
+
 
   gui.open();
 }
