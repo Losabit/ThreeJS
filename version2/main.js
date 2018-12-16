@@ -399,9 +399,9 @@ function buildGui() {
     });
     var f1 = gui.addFolder('Cycle Jour/Nuit');
       f1.add(controller,'speed',0.01,1).onChange(function(){
-        velocity.x += velocity.x *10 *(controller.speed);
-        velocity.y += 9.8 * 100 *(controller.speed);
-        velocity.z += velocity.z*10 * (controller.speed);
+        velocity.x -= velocity.x *10 *(controller.speed);
+        velocity.y -= 9.8 * 100 *(controller.speed);
+        velocity.z -= velocity.z*10 * (controller.speed);
 
 
       });
