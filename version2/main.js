@@ -80,10 +80,6 @@ function init() {
   scene.background = new THREE.Color( 0xffffff );
   scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 
-  var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
-  light.position.set( 0.5, 1, 0.75 );
-//  scene.add( light );
-
   controls = new THREE.PointerLockControls( camera );
   scene.add( controls.getObject() );
 
@@ -123,7 +119,7 @@ function init() {
         }
     );
 
-  hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.7 );
+  hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.5 );
   scene.add( hemiLight );
   var material = new THREE.MeshPhongMaterial( { color: 0x808080, dithering: true } );
   var geometry = new THREE.PlaneBufferGeometry( 2000, 2000 );
@@ -213,9 +209,11 @@ function init() {
     face.vertexColors[ 2 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
   }
 
-  var floorMaterial = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
+  var floorTexture = new THREE.TextureLoader().load('images/floor.jpg');
+  var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture } );
   var floor = new THREE.Mesh( floorGeometry, floorMaterial );
   scene.add( floor );
+  skyBox();
   renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize( window.innerWidth, window.innerHeight );
@@ -296,6 +294,7 @@ function animate() {
     {
       hemiLight.intensity = 0.4;
     }
+
   }
 
   if ( controlsEnabled === true ) {
