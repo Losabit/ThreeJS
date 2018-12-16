@@ -430,3 +430,40 @@ function onResize() {
   camera.updateProjectionMatrix();
   renderer.setSize( window.innerWidth, window.innerHeight );
 }
+var controller = new function() {
+
+     this.positionX = 0;
+     this.positionY = 0;
+     this.positionZ = 0;
+     this.position2X = 0;
+     this.position2Y = 0;
+     this.position2Z = 0;
+
+   }();
+
+function buildGui() {
+  gui = new dat.GUI();
+  var f2 = gui.addFolder('Position Lune');
+     f2.add(controller, 'positionX', -2000, 2000).onChange( function() {
+        meshMoon.position.x = (controller.positionX);
+     });
+     f2.add(controller, 'positionY', -1000, 1000).onChange( function() {
+        meshMoon.position.y = (controller.positionY);
+     });
+     f2.add(controller, 'positionZ', -2000, 2000).onChange( function() {
+        meshMoon.position.z = (controller.positionZ);
+     });
+     var f3 = gui.addFolder('Position Soleil');
+    f3.add(controller, 'position2X', -2000, 2000).onChange( function() {
+      meshSun.position.x = (controller.position2X);
+    });
+    f3.add(controller, 'position2Y', -1000, 1000).onChange( function() {
+      meshSun.position.y = (controller.position2Y);
+    });
+    f3.add(controller, 'position2Z', -2000, 2000).onChange( function() {
+      meshSun.position.z = (controller.position2Z);
+    });
+
+  gui.open();
+}
+buildGui();
