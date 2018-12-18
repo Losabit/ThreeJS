@@ -76,7 +76,6 @@ var direction = new THREE.Vector3();
 function init() {
 
   camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 100000 );
-
   scene = new THREE.Scene();
   scene.background = new THREE.Color( 0xffffff );
   //scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
@@ -100,8 +99,11 @@ function init() {
 
   var loadingManager = new THREE.LoadingManager( function () {
     tree.scale.set(1,1,1);
-    tree.position.set(-100,0,300);
+    tree.position.set(-100,0,400);
+    tree.castShadow = true;
+    tree.receiveShadow = true;
     scene.add( tree );
+    plant.scale.set(0.2,0.2,0.2);
     scene.add( plant );
     treee = tree.clone();
     treee.position.set(200,0,-600);
@@ -115,28 +117,6 @@ function init() {
   loader.load('collada/plant.dae', function ( collada ) {
     plant = collada.scene;
   } );
-
-    var loader = new THREE.ObjectLoader();
-    loader.load("waterFall.dae",
-        function ( obj ) {
-            obj.scale.set(1000,1000,1000);
-            obj.position.x += 20;
-            obj.position.y += 20;
-            obj.position.z+= 20;
-  //          obj.rotation.y += 0;
-            obj.castShadow = true;
-            obj.receiveShadow = true;
-            scene.add( obj );
-            objects.push(obj);
-
-        },
-        function ( xhr ) {
-            console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-        },
-        function ( xhr ) {
-            console.error( 'An error happened' );
-        }
-    );
 
   hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.5 );
   scene.add( hemiLight );
@@ -215,23 +195,7 @@ function init() {
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
   raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
-
-  // floor
-
-  var floorGeometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
-  floorGeometry.rotateX( - Math.PI / 2 );
-
-  for ( var i = 0, l = floorGeometry.faces.length; i < l; i ++ ) {
-    var face = floorGeometry.faces[ i ];
-    face.vertexColors[ 0 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-    face.vertexColors[ 1 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-    face.vertexColors[ 2 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-  }
-
-  var floorTexture = new THREE.TextureLoader().load('images/floor3.jpg');
-  var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture } );
-  var floor = new THREE.Mesh( floorGeometry, floorMaterial );
-  scene.add( floor );
+  makeFloor('images/floor3.jpg',100,2000);
   skyBox();
   renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio( window.devicePixelRatio );
