@@ -14,7 +14,7 @@ if ( havePointerLock ) {
   var element = document.body;
   var pointerlockchange = function ( event ) {
     if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
-
+//test
       controlsEnabled = true;
       controls.enabled = true;
 
@@ -430,11 +430,18 @@ function buildGui() {
       meshSun.position.z = (controller.position2Z);
     });
     var f1 = gui.addFolder('Cycle Jour/Nuit');
-      f1.add(controller,'speed',0.01,1).onChange(function(){
-        velocity.x += velocity.x *10 *(controller.speed);
-        velocity.y += 9.8 * 100 *(controller.speed);
-        velocity.z += velocity.z*10 * (controller.speed);
+      f1.add(controller,'speed', 1  ,15 ).onChange(function(){
 
+        meshSun.position.y = 1000*Math.sin((t + controller.speed)* 0.01);
+        meshSun.position.z = 1000*Math.cos((t + controller.speed) * 0.01);
+        console.log(t);
+
+        spotLightSun.position.y = 1000*Math.sin((t + controller.speed)* 0.01);
+        spotLightSun.position.z = 1000*Math.cos((t + controller.speed)* 0.01);
+        meshMoon.position.y = -1000*Math.sin((t + controller.speed) * 0.01);
+        meshMoon.position.z = -1000*Math.cos((t + controller.speed) * 0.01);
+        spotLightMoon.position.y = -1000*Math.sin((t + controller.speed)* 0.01);
+        spotLightMoon.position.z = -1000*Math.cos((t + controller.speed)* 0.01);
 
       });
 
