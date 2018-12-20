@@ -294,12 +294,11 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
   //Permet de tester en boucle s'ils sont lockés
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
-<<<<<<< HEAD
 
 
-=======
+
+
   //Rayon qui test les collisions - permet de marcher sur les objets
->>>>>>> face304e72366532b8a359d3ab904a5a261cf878
   raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 
 
@@ -421,6 +420,7 @@ var controller = new function() {
      this.position2Y = 0;
      this.position2Z = 0;
      this.speed = 0;
+     this.jump = velocity.y;
 
 
    }();
@@ -462,7 +462,13 @@ function buildGui() {
         spotLightMoon.position.z = -1000*Math.cos((t + controller.speed)* 0.01);
 
       });
+    var f4 = gui.addFolder('Changer la taille des sauts');
+        f4.add(controller,'jump',0,600).onChange(function(){
 
+          velocity.y = controller.jump;
+
+
+        });
 
 
   gui.open();
@@ -470,3 +476,4 @@ function buildGui() {
 
 }
 buildGui();
+render();
