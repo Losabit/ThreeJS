@@ -3,7 +3,6 @@
 
 var camera, scene, renderer, controls;
 var spotLight, lightHelper, shadowCameraHelper;
-var tree,plant;
 var gui;
 var objects = [];
 var raycaster;
@@ -97,6 +96,43 @@ function init() {
   makeSun(2000,1000,2000);
   makeMoon(2000,-1000,-2000);
 
+  //////////////////// partie Audio //////////////////
+  var listener = new THREE.AudioListener();
+camera.add( listener );
+
+
+var sound = new THREE.PositionalAudio( listener );
+var soundf1 = new THREE.PositionalAudio( listener );
+var soundf2 = new THREE.PositionalAudio( listener );
+var soundf3 = new THREE.PositionalAudio( listener );
+
+
+var audioLoader = new THREE.AudioLoader();
+audioLoader.load( 'song/monkey.ogg', function( buffer ) {
+	sound.setBuffer( buffer );
+	sound.setLoop( true );
+  sound.setRefDistance( 2 );
+	sound.setVolume( 0.1 );
+	sound.play();
+});
+audioLoader.load( 'song/feut2.ogg', function( buffer ) {
+	soundf1.setBuffer( buffer );
+	soundf1.setLoop( true );
+  soundf1.setRefDistance( 2 );
+	soundf1.setVolume( 2 );
+	soundf1.play();
+  soundf2.setBuffer( buffer );
+	soundf2.setLoop( true );
+  soundf2.setRefDistance( 2 );
+	soundf2.setVolume(2 );
+	soundf2.play();
+  soundf3.setBuffer( buffer );
+	soundf3.setLoop( true );
+  soundf3.setRefDistance( 2 );
+	soundf3.setVolume( 2 );
+	soundf3.play();
+});
+
   var loadingManager = new THREE.LoadingManager( function () {
     tree.scale.set(1,1,1);
     tree.position.set(-100,0,400);
@@ -108,6 +144,53 @@ function init() {
     treee = tree.clone();
     treee.position.set(200,0,-600);
     scene.add( treee );
+
+    tree2 = tree.clone();
+    tree2.position.set(800,0,250);
+    scene.add( tree2 );
+
+    tree3 = tree.clone();
+    tree3.position.set(-800,0,100);
+    scene.add( tree3 );
+
+    tree4 = tree.clone();
+    tree4.position.set(-550,0,-650);
+    scene.add( tree4 );
+    //creation de la torche et de ses clones
+    torch.scale.set(0.5,0.5,0.5);
+    torch.position.set(-20,0,-180);
+    torch.castShadow = true;
+    torch.receiveShadow = true;
+    scene.add( torch );
+
+
+    torch1 = torch.clone();
+    torch1.position.set(-20,0,-300);
+    scene.add( torch1 );
+    torch1.add(soundf2);
+
+    torch2 = torch.clone();
+    torch2.position.set(210,0,-70);
+    scene.add( torch2 );
+    torch2.add(soundf3);
+
+    torch3 = torch.clone();
+    torch3.position.set(95,0,-70);
+    scene.add( torch3 );
+    torch3.add(soundf1);
+    //creation du paresseux
+    sloth.scale.set(1,1,1);
+    sloth.position.set(-200,0,-180);
+    sloth.castShadow = true;
+    sloth.receiveShadow = true;
+    scene.add( sloth );
+    //creation des singes
+    monkey.scale.set(1.2,1.2,1.2);
+    monkey.position.set(-200,0,-250);
+    monkey.castShadow = true;
+    monkey.receiveShadow = true;
+    scene.add( monkey );
+    monkey.add(sound);
   } );
 
   var loader = new THREE.ColladaLoader( loadingManager );
@@ -116,6 +199,16 @@ function init() {
   } );
   loader.load('collada/plant.dae', function ( collada ) {
     plant = collada.scene;
+  } );
+  loader.load('collada/torch.dae', function ( collada ) {
+    torch = collada.scene;
+  } );
+  loader.load('collada/sloth.dae', function ( collada ) {
+    sloth = collada.scene;
+  });
+
+  loader.load('collada/monkey.dae', function ( collada ) {
+    monkey = collada.scene;
   } );
 
   hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.5 );
