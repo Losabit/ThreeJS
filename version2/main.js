@@ -341,6 +341,7 @@ function buildGui() {
 
         meshSun.position.y = 1000*Math.sin((t + controller.speed)* 0.01);
         meshSun.position.z = 1000*Math.cos((t + controller.speed) * 0.01);
+        console.log(t);
 
         spotLightSun.position.y = 1000*Math.sin((t + controller.speed)* 0.01);
         spotLightSun.position.z = 1000*Math.cos((t + controller.speed)* 0.01);
