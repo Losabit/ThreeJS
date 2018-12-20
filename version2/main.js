@@ -59,7 +59,6 @@ if ( havePointerLock ) {
 
 init();
 animate();
-render();
 
 
 var controlsEnabled = false;
@@ -413,9 +412,7 @@ var controller = new function() {
      this.position2Y = 0;
      this.position2Z = 0;
      this.speed = 0;
-     this.jump = velocity.y;
-     velx: 0;
-     vely: 0;
+
 
    }();
 
@@ -457,7 +454,7 @@ function buildGui() {
 
       });
 
-      
+
 
   gui.open();
 
