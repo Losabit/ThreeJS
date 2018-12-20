@@ -5,7 +5,7 @@ function makeTemple(size,sizediff,hauteur,posx,posz){
   var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
   var geometry = new THREE.BoxBufferGeometry( size, hauteur, size );
   var base = new THREE.Mesh( geometry, material );
-  base.position.set( posx, 0, posz );
+  base.position.set( posx, 10, posz );
   base.castShadow = true;
   baseTemple(1,base,size,sizediff,hauteur,posx,posz);
 
@@ -28,7 +28,7 @@ function baseTemple(it,base,size,sizediff,hauteur,posx,posz){
     var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
     var geometry = new THREE.BoxBufferGeometry( size-sizediff, hauteur, size-sizediff );
     var mesh = new THREE.Mesh( geometry, material );
-    mesh.position.set( posx, hauteur * it, posz );
+    mesh.position.set( posx, hauteur * it + 10, posz );
     mesh.castShadow = true;
     baseTemple(it+1,mesh,size-sizediff,sizediff,hauteur,posx,posz);
   }
@@ -70,7 +70,7 @@ function hautTemple(size,sizediff,hauteur,posx,posz){
   var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
   var geometry = new THREE.BoxBufferGeometry( size - (10 * sizediff), hauteur * 3, size - (10 * sizediff));
   var haut = new THREE.Mesh( geometry, material );
-  haut.position.set( posx, hauteur * 9, posz );
+  haut.position.set( posx, hauteur * 9 + 10, posz );
   haut.castShadow = true;
   scene.add(haut);
 }

@@ -294,9 +294,15 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
   //Permet de tester en boucle s'ils sont lockés
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
+<<<<<<< HEAD
 
 
+=======
+  //Rayon qui test les collisions - permet de marcher sur les objets
+>>>>>>> face304e72366532b8a359d3ab904a5a261cf878
   raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
+
+
   makeFloor('images/floor3.jpg',100,2000);
   skyBox();
   renderer = new THREE.WebGLRenderer();
@@ -348,16 +354,19 @@ function animate() {
 
   }
 
+// if ( controls.isLoced === true){
   if ( controlsEnabled === true ) {
     raycaster.ray.origin.copy( controls.getObject().position );
-    raycaster.ray.origin.y -= 10;
-    var intersections = raycaster.intersectObjects( objects );
+    raycaster.ray.origin.y -= 10; // Marge de colision (pour pas entrer dans un mur)
+
+    var intersections = raycaster.intersectObjects( objects ); //Test tous les objets qu'on touche
     var onObject = intersections.length > 0;
     var time = performance.now();
     var delta = ( time - prevTime ) / 1000; //C'est ici qu'on change la vitesse de déplacement
     velocity.x -= velocity.x * 10.0 * delta;
     velocity.z -= velocity.z * 10.0 * delta;
     velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+    // Calcul en x et z pour les déplacement
     direction.z = Number( moveForward ) - Number( moveBackward );
     direction.x = Number( moveLeft ) - Number( moveRight );
     direction.normalize(); // this ensures consistent movements in all directions
@@ -380,7 +389,7 @@ function animate() {
     }
     if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
     if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
-    if ( onObject === true ) {
+    if ( onObject === true ) { // Collisions - Modifier
       velocity.y = Math.max( 0, velocity.y );
       canJump = true;
     }
