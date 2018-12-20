@@ -28,6 +28,7 @@ function init() {
   makeMoon(2000,-1000,-2000);
   hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.7 );
   scene.add( hemiLight );
+
   var material = new THREE.MeshPhongMaterial( { color: 0x808080, dithering: true } );
   var geometry = new THREE.PlaneBufferGeometry( 2000, 2000 );
   var mesh = new THREE.Mesh( geometry, material );
@@ -35,6 +36,7 @@ function init() {
   mesh.rotation.x = - Math.PI * 0.5;
   mesh.receiveShadow = true;
   scene.add( mesh );
+  
   makeTemple(300,20,30,-120,180);
   stats = new Stats();
   container.appendChild( stats.dom );
