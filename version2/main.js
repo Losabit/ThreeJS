@@ -239,7 +239,6 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
     switch ( event.keyCode ) {
       case 38: // up
       case 90: // z
-      case 15:
         moveForward = true;
         break;
 
@@ -270,7 +269,6 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
     switch( event.keyCode ) {
       case 38: // up
       case 90: // z
-      case 15:
         moveForward = false;
         break;
 
@@ -370,19 +368,19 @@ function animate() {
     direction.x = Number( moveLeft ) - Number( moveRight );
     direction.normalize(); // this ensures consistent movements in all directions
 
-    if (controls.getObject().position.x > 250) {
+    if (controls.getObject().position.x > 1000) {
       velocity.x = 0;
       moveRight = false;
     }
-    if (controls.getObject().position.x < -250) {
+    if (controls.getObject().position.x < -1000) {
       velocity.x = 0;
       moveLeft = false;
     }
-    if (controls.getObject().position.z < -400) {
+    if (controls.getObject().position.z < -1000) {
       velocity.z = 0;
       moveForward = false;
     }
-    if (controls.getObject().position.z > 480) {
+    if (controls.getObject().position.z > 1000) {
       velocity.z = 0;
       moveBackward = false;
     }
