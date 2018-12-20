@@ -3,7 +3,7 @@
 
 var camera, scene, renderer, controls;
 var spotLight, lightHelper, shadowCameraHelper;
-var waterFall;
+var tree,plant;
 var gui;
 var objects = [];
 var raycaster;
@@ -15,7 +15,7 @@ if ( havePointerLock ) {
   var element = document.body;
   var pointerlockchange = function ( event ) {
     if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
-
+//test
       controlsEnabled = true;
       controls.enabled = true;
 
@@ -76,7 +76,6 @@ var direction = new THREE.Vector3();
 function init() {
 
   camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 100000 );
-
   scene = new THREE.Scene();
   scene.background = new THREE.Color( 0xffffff );
   //scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
@@ -99,35 +98,25 @@ function init() {
   makeMoon(2000,-1000,-2000);
 
   var loadingManager = new THREE.LoadingManager( function () {
-    scene.add( waterFall );
+    tree.scale.set(1,1,1);
+    tree.position.set(-100,0,400);
+    tree.castShadow = true;
+    tree.receiveShadow = true;
+    scene.add( tree );
+    plant.scale.set(0.2,0.2,0.2);
+    scene.add( plant );
+    treee = tree.clone();
+    treee.position.set(200,0,-600);
+    scene.add( treee );
   } );
-  // collada
+
   var loader = new THREE.ColladaLoader( loadingManager );
   loader.load('collada/tree1.dae', function ( collada ) {
-    waterFall = collada.scene;
+    tree = collada.scene;
   } );
-
-    var loader = new THREE.ObjectLoader();
-    loader.load("waterFall.dae",
-        function ( obj ) {
-            obj.scale.set(1000,1000,1000);
-            obj.position.x += 20;
-            obj.position.y += 20;
-            obj.position.z+= 20;
-  //          obj.rotation.y += 0;
-            obj.castShadow = true;
-            obj.receiveShadow = true;
-            scene.add( obj );
-            objects.push(obj);
-
-        },
-        function ( xhr ) {
-            console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-        },
-        function ( xhr ) {
-            console.error( 'An error happened' );
-        }
-    );
+  loader.load('collada/plant.dae', function ( collada ) {
+    plant = collada.scene;
+  } );
 
   hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.5 );
   scene.add( hemiLight );
@@ -206,72 +195,13 @@ function init() {
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
   raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
-
-  // floor
-
-  var floorGeometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
-  floorGeometry.rotateX( - Math.PI / 2 );
-
-  for ( var i = 0, l = floorGeometry.faces.length; i < l; i ++ ) {
-    var face = floorGeometry.faces[ i ];
-    face.vertexColors[ 0 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-    face.vertexColors[ 1 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-    face.vertexColors[ 2 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-  }
-
-  var floorTexture = new THREE.TextureLoader().load('images/floor.jpg');
-  var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture } );
-  var floor = new THREE.Mesh( floorGeometry, floorMaterial );
-  scene.add( floor );
+  makeFloor('images/floor3.jpg',100,2000);
   skyBox();
   renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
   window.addEventListener( 'resize', onWindowResize, false );
-}
-
-function makeSun(posx, posy, posz){
-  var texture = new THREE.TextureLoader().load('images/sun.jpg');
-  var geometry = new THREE.SphereBufferGeometry(200, 200, 200);
-  var material = new THREE.MeshPhongMaterial({ map: texture});
-  meshSun = new THREE.Mesh(geometry, material);
-  meshSun.position.set(posx, posy, posz);
-  scene.add(meshSun);
-
-  spotLightSun = new THREE.SpotLight( 0xffffff, 2 );
-  spotLightSun.position.set( posx, posy, posz );
-  spotLightSun.angle = Math.PI / 4;
-  spotLightSun.penumbra = 0.05;
-  spotLightSun.decay = 2;
-  spotLightSun.distance = 5000;
-  spotLightSun.castShadow = true;
-  spotLightSun.shadow.mapSize.width = 1024;
-  spotLightSun.shadow.mapSize.height = 1024;
-  spotLightSun.shadow.camera.near = 10;
-  spotLightSun.shadow.camera.far = 200;
-  scene.add( spotLightSun );
-}
-function makeMoon(posx, posy, posz){
-  var texture = new THREE.TextureLoader().load('images/moon.jpg');
-  var geometry = new THREE.SphereBufferGeometry(200, 200, 200);
-  var material = new THREE.MeshPhongMaterial({ map: texture});
-  meshMoon = new THREE.Mesh(geometry, material);
-  meshMoon.position.set(posx, posy, posz);
-  scene.add(meshMoon);
-
-  spotLightMoon = new THREE.SpotLight( 0xffffff, 0.5 );
-  spotLightMoon.position.set( posx, posy, posz );
-  spotLightMoon.angle = Math.PI / 4;
-  spotLightMoon.penumbra = 0.05;
-  spotLightMoon.decay = 2;
-  spotLightMoon.distance = 5000;
-  spotLightMoon.castShadow = true;
-  spotLightMoon.shadow.mapSize.width = 1024;
-  spotLightMoon.shadow.mapSize.height = 1024;
-  spotLightMoon.shadow.camera.near = 10;
-  spotLightMoon.shadow.camera.far = 200;
-  scene.add( spotLightMoon );
 }
 
 function onWindowResize() {
@@ -296,6 +226,14 @@ function animate() {
     spotLightMoon.position.y = -1000*Math.sin(t* 0.01);
     spotLightMoon.position.z = -1000*Math.cos(t * 0.01);
 
+    if(-1000*Math.sin(t * 0.01) > 50){
+      hemiLight.intensity = 0.3;
+    }
+    else{
+      hemiLight.intensity = Math.sin(t* 0.01);
+    }
+
+    /*
     if(Math.sin(t*0.01) > 0.4)
     {
       hemiLight.intensity = Math.sin(t* 0.01);
@@ -304,6 +242,7 @@ function animate() {
     {
       hemiLight.intensity = 0.4;
     }
+    */
 
   }
 
