@@ -3,7 +3,6 @@
 
 var camera, scene, renderer, controls;
 var spotLight, lightHelper, shadowCameraHelper;
-var tree,plant;
 var gui;
 var objects = [];
 var raycaster;
@@ -15,7 +14,7 @@ if ( havePointerLock ) {
   var element = document.body;
   var pointerlockchange = function ( event ) {
     if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
-
+//test
       controlsEnabled = true;
       controls.enabled = true;
 
@@ -76,7 +75,6 @@ var direction = new THREE.Vector3();
 function init() {
 
   camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 100000 );
-
   scene = new THREE.Scene();
   scene.background = new THREE.Color( 0xffffff );
   //scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
@@ -98,14 +96,101 @@ function init() {
   makeSun(2000,1000,2000);
   makeMoon(2000,-1000,-2000);
 
+  //////////////////// partie Audio //////////////////
+  var listener = new THREE.AudioListener();
+camera.add( listener );
+
+
+var sound = new THREE.PositionalAudio( listener );
+var soundf1 = new THREE.PositionalAudio( listener );
+var soundf2 = new THREE.PositionalAudio( listener );
+var soundf3 = new THREE.PositionalAudio( listener );
+
+
+var audioLoader = new THREE.AudioLoader();
+audioLoader.load( 'song/monkey.ogg', function( buffer ) {
+	sound.setBuffer( buffer );
+	sound.setLoop( true );
+  sound.setRefDistance( 2 );
+	sound.setVolume( 0.1 );
+	sound.play();
+});
+audioLoader.load( 'song/feut2.ogg', function( buffer ) {
+	soundf1.setBuffer( buffer );
+	soundf1.setLoop( true );
+  soundf1.setRefDistance( 2 );
+	soundf1.setVolume( 2 );
+	soundf1.play();
+  soundf2.setBuffer( buffer );
+	soundf2.setLoop( true );
+  soundf2.setRefDistance( 2 );
+	soundf2.setVolume(2 );
+	soundf2.play();
+  soundf3.setBuffer( buffer );
+	soundf3.setLoop( true );
+  soundf3.setRefDistance( 2 );
+	soundf3.setVolume( 2 );
+	soundf3.play();
+});
+
   var loadingManager = new THREE.LoadingManager( function () {
     tree.scale.set(1,1,1);
-    tree.position.set(-100,0,300);
+    tree.position.set(-100,0,400);
+    tree.castShadow = true;
+    tree.receiveShadow = true;
     scene.add( tree );
+    plant.scale.set(0.2,0.2,0.2);
     scene.add( plant );
     treee = tree.clone();
     treee.position.set(200,0,-600);
     scene.add( treee );
+
+    tree2 = tree.clone();
+    tree2.position.set(800,0,250);
+    scene.add( tree2 );
+
+    tree3 = tree.clone();
+    tree3.position.set(-800,0,100);
+    scene.add( tree3 );
+
+    tree4 = tree.clone();
+    tree4.position.set(-550,0,-650);
+    scene.add( tree4 );
+    //creation de la torche et de ses clones
+    torch.scale.set(0.5,0.5,0.5);
+    torch.position.set(-20,0,-180);
+    torch.castShadow = true;
+    torch.receiveShadow = true;
+    scene.add( torch );
+
+
+    torch1 = torch.clone();
+    torch1.position.set(-20,0,-300);
+    scene.add( torch1 );
+    torch1.add(soundf2);
+
+    torch2 = torch.clone();
+    torch2.position.set(210,0,-70);
+    scene.add( torch2 );
+    torch2.add(soundf3);
+
+    torch3 = torch.clone();
+    torch3.position.set(95,0,-70);
+    scene.add( torch3 );
+    torch3.add(soundf1);
+    //creation du paresseux
+    sloth.scale.set(1,1,1);
+    sloth.position.set(-200,0,-180);
+    sloth.castShadow = true;
+    sloth.receiveShadow = true;
+    scene.add( sloth );
+    //creation des singes
+    monkey.scale.set(1.2,1.2,1.2);
+    monkey.position.set(-200,0,-250);
+    monkey.castShadow = true;
+    monkey.receiveShadow = true;
+    scene.add( monkey );
+    monkey.add(sound);
   } );
 
   var loader = new THREE.ColladaLoader( loadingManager );
@@ -115,28 +200,16 @@ function init() {
   loader.load('collada/plant.dae', function ( collada ) {
     plant = collada.scene;
   } );
+  loader.load('collada/torch.dae', function ( collada ) {
+    torch = collada.scene;
+  } );
+  loader.load('collada/sloth.dae', function ( collada ) {
+    sloth = collada.scene;
+  });
 
-    var loader = new THREE.ObjectLoader();
-    loader.load("waterFall.dae",
-        function ( obj ) {
-            obj.scale.set(1000,1000,1000);
-            obj.position.x += 20;
-            obj.position.y += 20;
-            obj.position.z+= 20;
-  //          obj.rotation.y += 0;
-            obj.castShadow = true;
-            obj.receiveShadow = true;
-            scene.add( obj );
-            objects.push(obj);
-
-        },
-        function ( xhr ) {
-            console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-        },
-        function ( xhr ) {
-            console.error( 'An error happened' );
-        }
-    );
+  loader.load('collada/monkey.dae', function ( collada ) {
+    monkey = collada.scene;
+  } );
 
   hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.5 );
   scene.add( hemiLight );
@@ -215,23 +288,7 @@ function init() {
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
   raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
-
-  // floor
-
-  var floorGeometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
-  floorGeometry.rotateX( - Math.PI / 2 );
-
-  for ( var i = 0, l = floorGeometry.faces.length; i < l; i ++ ) {
-    var face = floorGeometry.faces[ i ];
-    face.vertexColors[ 0 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-    face.vertexColors[ 1 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-    face.vertexColors[ 2 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-  }
-
-  var floorTexture = new THREE.TextureLoader().load('images/floor3.jpg');
-  var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture } );
-  var floor = new THREE.Mesh( floorGeometry, floorMaterial );
-  scene.add( floor );
+  makeFloor('images/floor3.jpg',100,2000);
   skyBox();
   renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio( window.devicePixelRatio );
@@ -373,11 +430,18 @@ function buildGui() {
       meshSun.position.z = (controller.position2Z);
     });
     var f1 = gui.addFolder('Cycle Jour/Nuit');
-      f1.add(controller,'speed',0.01,1).onChange(function(){
-        velocity.x += velocity.x *10 *(controller.speed);
-        velocity.y += 9.8 * 100 *(controller.speed);
-        velocity.z += velocity.z*10 * (controller.speed);
+      f1.add(controller,'speed', 1  ,15 ).onChange(function(){
 
+        meshSun.position.y = 1000*Math.sin((t + controller.speed)* 0.01);
+        meshSun.position.z = 1000*Math.cos((t + controller.speed) * 0.01);
+        console.log(t);
+
+        spotLightSun.position.y = 1000*Math.sin((t + controller.speed)* 0.01);
+        spotLightSun.position.z = 1000*Math.cos((t + controller.speed)* 0.01);
+        meshMoon.position.y = -1000*Math.sin((t + controller.speed) * 0.01);
+        meshMoon.position.z = -1000*Math.cos((t + controller.speed) * 0.01);
+        spotLightMoon.position.y = -1000*Math.sin((t + controller.speed)* 0.01);
+        spotLightMoon.position.z = -1000*Math.cos((t + controller.speed)* 0.01);
 
       });
 
