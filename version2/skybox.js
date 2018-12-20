@@ -15,11 +15,12 @@ function skyBox(){
 }
 
 function makeFloor(path,size,finalSize){
-  var floorGeometry = new THREE.PlaneGeometry(size, size);
+  var floorGeometry = new THREE.PlaneBufferGeometry(size, size);
   floorGeometry.rotateX( - Math.PI / 2 );
   var floorTexture = new THREE.TextureLoader().load(path);
-  var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture } );
+  var floorMaterial = new THREE.MeshPhongMaterial( { map: floorTexture, dithering: true } );
   var floor = new THREE.Mesh( floorGeometry, floorMaterial );
+  floor.receiveShadow = true;
 
   var i;
   var j;
