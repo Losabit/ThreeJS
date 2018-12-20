@@ -4,8 +4,8 @@
 var camera, scene, renderer, controls;
 var spotLight, lightHelper, shadowCameraHelper;
 var gui;
-var objects = [];
-var raycaster;
+var objects = []; // Permet de stocker les objets où on veut faire les colisions
+var raycaster; // Permet de tester les colisions
 var blocker = document.getElementById( 'blocker' );
 var instructions = document.getElementById( 'instructions' );
 var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
@@ -62,15 +62,17 @@ animate();
 
 var controlsEnabled = false;
 
+  // 5 mouvements possibles (ici c'est le déplacement)
 var moveForward = false;
 var moveBackward = false;
 var moveLeft = false;
 var moveRight = false;
 var canJump = false;
 
-var prevTime = performance.now();
+var prevTime = performance.now(); // Pour se faire dans le temps
 var velocity = new THREE.Vector3();
 var direction = new THREE.Vector3();
+var vertex = THREE.Vector3();
 
 function init() {
 
@@ -79,6 +81,8 @@ function init() {
   scene.background = new THREE.Color( 0xffffff );
   //scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 
+
+  //On attache le pointerlock à la caméra
   controls = new THREE.PointerLockControls( camera );
   scene.add( controls.getObject() );
 
@@ -229,6 +233,7 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
 
 // -----------------------------------------------------------
 
+  // Quand j'appuie sur une touche (down pour écrasée)
   var onKeyDown = function ( event ) {
     switch ( event.keyCode ) {
       case 38: // up
@@ -253,8 +258,8 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
         break;
 
       case 32: // space
-        if ( canJump === true ) velocity.y += 350;
-        canJump = false;
+        if ( canJump === true ) velocity.y += 350; //Hauteur du saut
+        canJump = false; //On peut pas sauter quand on a dejà sauté
         break;
 
     }
@@ -285,8 +290,11 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
     }
   };
 
+  //Permet de tester en boucle s'ils sont lockés
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
+
+
   raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
   makeFloor('images/floor3.jpg',100,2000);
   skyBox();
