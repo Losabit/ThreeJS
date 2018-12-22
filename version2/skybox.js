@@ -3,7 +3,7 @@ function skyBox(){
   var cubeMaterials =
   [ //On peut mettre DoubleSide
     new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/skybox.jpg' ), side:THREE.BackSide } ), // droite
-    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/skybox.jpg' ), side:THREE.BackSide } ), // gauche
+    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/sun.jpg' ), side:THREE.BackSide } ), // gauche
     new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/skybox.jpg' ), side:THREE.BackSide } ), //Haut
     new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/skybox.jpg' ), side:THREE.BackSide } ), //Bas
     new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/skybox.jpg' ), side:THREE.BackSide } ),
