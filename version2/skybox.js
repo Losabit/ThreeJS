@@ -2,12 +2,12 @@ function skyBox(){
   var geometry = new THREE.CubeGeometry( 80000, 80000, 80000);
   var cubeMaterials =
   [ //On peut mettre DoubleSide
-    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/droite.png' ), side:THREE.BackSide } ), // droite
-    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/gauche.png' ), side:THREE.BackSide } ), // gauche
-    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/haut.png' ), side:THREE.BackSide } ), // haut
-    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/bas.png' ), side:THREE.BackSide } ), // bas
-    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/arriere.png' ), side:THREE.BackSide } ), // arriere
-    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/milieu.png' ), side:THREE.BackSide } ) // face
+    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/right.png' ), side:THREE.BackSide } ), // droite
+    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/left.png' ), side:THREE.BackSide } ), // gauche
+    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/top.png' ), side:THREE.BackSide } ), // haut
+    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/bottom.png' ), side:THREE.BackSide } ), // bas
+    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/back.png' ), side:THREE.BackSide } ), // arriere
+    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader( ).load( 'images/front.png' ), side:THREE.BackSide } ) // face
   ];
   var cubeMaterial = new THREE.MeshBasicMaterial( cubeMaterials );
   var skybox = new THREE.Mesh ( geometry, cubeMaterials );
