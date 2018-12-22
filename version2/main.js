@@ -205,6 +205,11 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
     skul.castShadow = true;
     skul.receiveShadow = true;
     scene.add( skul );
+
+  /*  spider.scale.set(0.5,0.5,0.5);
+    spider.castShadow = true;
+    spider.receiveShadow = true;
+    scene.add( spider ); */
   } );
 
   var loader = new THREE.ColladaLoader( loadingManager );
@@ -226,6 +231,9 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
   } );
   loader.load('collada/skull.dae', function ( collada ) {
     skul = collada.scene;
+  } );
+  loader.load('collada/spiderAnimate.dae', function ( collada ) {
+    spider = collada.scene;
   } );
 
   hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.5 );
