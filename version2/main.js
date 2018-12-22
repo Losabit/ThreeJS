@@ -69,6 +69,8 @@ var moveBackward = false;
 var moveLeft = false;
 var moveRight = false;
 var canJump = false;
+var take = false;
+var skull = false;
 
 var prevTime = performance.now(); // Pour se faire dans le temps
 var velocity = new THREE.Vector3();
@@ -196,6 +198,13 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
     monkey.receiveShadow = true;
     scene.add( monkey );
     monkey.add(sound);
+
+    skul.scale.set(0.5,0.5,0.5);
+    skul.position.set(-290,2,150);
+    skul.rotation.set(-1.1,0,2);
+    skul.castShadow = true;
+    skul.receiveShadow = true;
+    scene.add( skul );
   } );
 
   var loader = new THREE.ColladaLoader( loadingManager );
@@ -214,6 +223,9 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
 
   loader.load('collada/monkey.dae', function ( collada ) {
     monkey = collada.scene;
+  } );
+  loader.load('collada/skull.dae', function ( collada ) {
+    skul = collada.scene;
   } );
 
   hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.5 );
@@ -257,6 +269,10 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
         moveRight = true;
         break;
 
+      case 70: // f
+        take = true;
+        break;
+
       case 32: // space
 
       /* PERMETTRE DE SAUTER OU NON */
@@ -290,6 +306,10 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
       case 39: // right
       case 68: // d
         moveRight = false;
+        break;
+
+      case 70: // f
+        take = false;
         break;
     }
   };
@@ -353,18 +373,6 @@ function animate() {
     else{
       hemiLight.intensity = Math.sin(t* 0.01);
     }
-
-    /*
-    if(Math.sin(t*0.01) > 0.4)
-    {
-      hemiLight.intensity = Math.sin(t* 0.01);
-    }
-    else
-    {
-      hemiLight.intensity = 0.4;
-    }
-    */
-
   }
 
 // if ( controls.isLoced === true){
@@ -375,7 +383,7 @@ function animate() {
     var intersections = raycaster.intersectObjects( objects ); //Test tous les objets qu'on touche
     var onObject = intersections.length > 0;
     var time = performance.now();
-    var delta = ( time - prevTime ) / 100; //C'est ici qu'on change la vitesse de déplacement
+    var delta = ( time - prevTime ) / 500; //C'est ici qu'on change la vitesse de déplacement
     velocity.x -= velocity.x * 10.0 * delta;
     velocity.z -= velocity.z * 10.0 * delta;
     velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
@@ -402,6 +410,22 @@ function animate() {
     }
     if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
     if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
+    if (take){
+      if(skull){
+        if(controls.getObject().position.x < -100 && controls.getObject().position.x > -220){
+          if(controls.getObject().position.z < -100 && controls.getObject().position.z > -300){
+             skul.position.set(0,0,0);
+             scene.add(skul);
+           }
+        }
+      }
+        if(controls.getObject().position.x < -270 && controls.getObject().position.x > -310){
+          if(controls.getObject().position.z < 170 && controls.getObject().position.z > 130){
+            scene.remove(skul);
+            skull = true;
+          }
+        }
+    }
     if ( onObject === true ) { // Collisions - Modifier
       velocity.y = Math.max( 0, velocity.y );
       canJump = true;
