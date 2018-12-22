@@ -258,7 +258,7 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
         break;
 
       case 32: // space
-        if ( canJump === true ) velocity.y += 350; //Hauteur du saut
+        if ( canJump === true ) velocity.y += 500; //Hauteur du saut
         canJump = false; //On peut pas sauter quand on a dejà sauté
         break;
 
@@ -359,7 +359,7 @@ function animate() {
     var intersections = raycaster.intersectObjects( objects ); //Test tous les objets qu'on touche
     var onObject = intersections.length > 0;
     var time = performance.now();
-    var delta = ( time - prevTime ) / 1000; //C'est ici qu'on change la vitesse de déplacement
+    var delta = ( time - prevTime ) / 100; //C'est ici qu'on change la vitesse de déplacement
     velocity.x -= velocity.x * 10.0 * delta;
     velocity.z -= velocity.z * 10.0 * delta;
     velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
