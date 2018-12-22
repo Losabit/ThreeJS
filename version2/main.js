@@ -258,6 +258,11 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
         break;
 
       case 32: // space
+
+      /* PERMETTRE DE SAUTER OU NON */
+
+        canJump = true;
+
         if ( canJump === true ) velocity.y += 500; //Hauteur du saut
         canJump = false; //On peut pas sauter quand on a dejà sauté
         break;
@@ -296,11 +301,22 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
 
 
 
+//  var boxGeo = new THREE.boxGeometry(20, 20, 20);
+//  var boxMate = new THREE.Color(0xffffff);
+
+//  scene.add(boxy);
+//  objects.push(boxy);
+
+
+
+
+
+
   //Rayon qui test les collisions - permet de marcher sur les objets
-  raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
+  raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, -1, 0 ), 0, 10 );
 
 
-  makeFloor('images/floor3.jpg',100,2000);
+  makeFloor('images/floor2.jpg',100,2000);
   skyBox();
   renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio( window.devicePixelRatio );
