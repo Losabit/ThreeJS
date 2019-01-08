@@ -14,14 +14,14 @@ if ( havePointerLock ) {
   var element = document.body;
   var pointerlockchange = function ( event ) {
     if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
-//test
+      //test
       controlsEnabled = true;
       controls.enabled = true;
 
       blocker.style.display = 'none';
     } else {
       controls.enabled = false;
-
+      
       blocker.style.display = 'block';
 
       instructions.style.display = '';
@@ -63,7 +63,7 @@ animate();
 
 var controlsEnabled = false;
 
-  // 5 mouvements possibles (ici c'est le déplacement)
+// 5 mouvements possibles (ici c'est le déplacement)
 var moveForward = false;
 var moveBackward = false;
 var moveLeft = false;
@@ -89,15 +89,15 @@ function init() {
   controls = new THREE.PointerLockControls( camera );
   scene.add( controls.getObject() );
 
-// -----------------------------------------------------------
+  // -----------------------------------------------------------
 
   var container = document.getElementById( 'container' );
 
 
-//  renderer.shadowMap.enabled = true;
-//  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-//  renderer.gammaInput = true;
-//  renderer.gammaOutput = true;
+  //  renderer.shadowMap.enabled = true;
+  //  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  //  renderer.gammaInput = true;
+  //  renderer.gammaOutput = true;
 
 
   makeSun(2000,1000,2000);
@@ -105,40 +105,40 @@ function init() {
 
   //////////////////// partie Audio //////////////////
   var listener = new THREE.AudioListener();
-camera.add( listener );
+  camera.add( listener );
 
 
-var sound = new THREE.PositionalAudio( listener );
-var soundf1 = new THREE.PositionalAudio( listener );
-var soundf2 = new THREE.PositionalAudio( listener );
-var soundf3 = new THREE.PositionalAudio( listener );
+  var sound = new THREE.PositionalAudio( listener );
+  var soundf1 = new THREE.PositionalAudio( listener );
+  var soundf2 = new THREE.PositionalAudio( listener );
+  var soundf3 = new THREE.PositionalAudio( listener );
 
 
-var audioLoader = new THREE.AudioLoader();
-audioLoader.load( 'song/monkey.ogg', function( buffer ) {
-	sound.setBuffer( buffer );
-	sound.setLoop( true );
-  sound.setRefDistance( 2 );
-	sound.setVolume( 0.1 );
-	sound.play();
-});
-audioLoader.load( 'song/feut2.ogg', function( buffer ) {
-	soundf1.setBuffer( buffer );
-	soundf1.setLoop( true );
-  soundf1.setRefDistance( 2 );
-	soundf1.setVolume( 2 );
-	soundf1.play();
-  soundf2.setBuffer( buffer );
-	soundf2.setLoop( true );
-  soundf2.setRefDistance( 2 );
-	soundf2.setVolume(2 );
-	soundf2.play();
-  soundf3.setBuffer( buffer );
-	soundf3.setLoop( true );
-  soundf3.setRefDistance( 2 );
-	soundf3.setVolume( 2 );
-	soundf3.play();
-});
+  var audioLoader = new THREE.AudioLoader();
+  audioLoader.load( 'song/monkey.ogg', function( buffer ) {
+    sound.setBuffer( buffer );
+    sound.setLoop( true );
+    sound.setRefDistance( 2 );
+    sound.setVolume( 0.1 );
+    sound.play();
+  });
+  audioLoader.load( 'song/feut2.ogg', function( buffer ) {
+    soundf1.setBuffer( buffer );
+    soundf1.setLoop( true );
+    soundf1.setRefDistance( 2 );
+    soundf1.setVolume( 2 );
+    soundf1.play();
+    soundf2.setBuffer( buffer );
+    soundf2.setLoop( true );
+    soundf2.setRefDistance( 2 );
+    soundf2.setVolume(2 );
+    soundf2.play();
+    soundf3.setBuffer( buffer );
+    soundf3.setLoop( true );
+    soundf3.setRefDistance( 2 );
+    soundf3.setVolume( 2 );
+    soundf3.play();
+  });
 
   var loadingManager = new THREE.LoadingManager( function () {
     tree.scale.set(1,1,1);
@@ -206,7 +206,7 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
     skul.receiveShadow = true;
     scene.add( skul );
 
-  /*  spider.scale.set(0.5,0.5,0.5);
+    /*  spider.scale.set(0.5,0.5,0.5);
     spider.castShadow = true;
     spider.receiveShadow = true;
     scene.add( spider ); */
@@ -249,47 +249,47 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
 
   stats = new Stats();
   container.appendChild( stats.dom );
-//  controls.target.copy( mesh.position );
-//  controls.update();
+  //  controls.target.copy( mesh.position );
+  //  controls.update();
 
-// -----------------------------------------------------------
+  // -----------------------------------------------------------
 
   // Quand j'appuie sur une touche (down pour écrasée)
   var onKeyDown = function ( event ) {
     switch ( event.keyCode ) {
       case 38: // up
       case 90: // z
-        moveForward = true;
-        break;
+      moveForward = true;
+      break;
 
       case 37: // left
       case 81: // q
-        moveLeft = true;
-        break;
+      moveLeft = true;
+      break;
 
       case 40: // down
       case 83: // s
-        moveBackward = true;
-        break;
+      moveBackward = true;
+      break;
 
       case 39: // right
       case 68: // d
-        moveRight = true;
-        break;
+      moveRight = true;
+      break;
 
       case 70: // f
-        take = true;
-        break;
+      take = true;
+      break;
 
       case 32: // space
 
       /* PERMETTRE DE SAUTER OU NON */
 
-        canJump = true;
+      canJump = true;
 
-        if ( canJump === true ) velocity.y += 500; //Hauteur du saut
-        canJump = false; //On peut pas sauter quand on a dejà sauté
-        break;
+      if ( canJump === true ) velocity.y += 500; //Hauteur du saut
+      canJump = false; //On peut pas sauter quand on a dejà sauté
+      break;
 
     }
   };
@@ -298,27 +298,27 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
     switch( event.keyCode ) {
       case 38: // up
       case 90: // z
-        moveForward = false;
-        break;
+      moveForward = false;
+      break;
 
       case 37: // left
       case 81: // q
-        moveLeft = false;
-        break;
+      moveLeft = false;
+      break;
 
       case 40: // down
       case 83: // s
-        moveBackward = false;
-        break;
+      moveBackward = false;
+      break;
 
       case 39: // right
       case 68: // d
-        moveRight = false;
-        break;
+      moveRight = false;
+      break;
 
       case 70: // f
-        take = false;
-        break;
+      take = false;
+      break;
     }
   };
 
@@ -329,11 +329,11 @@ audioLoader.load( 'song/feut2.ogg', function( buffer ) {
 
 
 
-//  var boxGeo = new THREE.boxGeometry(20, 20, 20);
-//  var boxMate = new THREE.Color(0xffffff);
+  //  var boxGeo = new THREE.boxGeometry(20, 20, 20);
+  //  var boxMate = new THREE.Color(0xffffff);
 
-//  scene.add(boxy);
-//  objects.push(boxy);
+  //  scene.add(boxy);
+  //  objects.push(boxy);
 
 
 
@@ -383,7 +383,7 @@ function animate() {
     }
   }
 
-// if ( controls.isLoced === true){
+  // if ( controls.isLoced === true){
   if ( controlsEnabled === true ) {
     raycaster.ray.origin.copy( controls.getObject().position );
     raycaster.ray.origin.y -= 10; // Marge de colision (pour pas entrer dans un mur)
@@ -422,17 +422,17 @@ function animate() {
       if(skull){
         if(controls.getObject().position.x < -100 && controls.getObject().position.x > -220){
           if(controls.getObject().position.z < -100 && controls.getObject().position.z > -300){
-             skul.position.set(0,0,0);
-             scene.add(skul);
-           }
-        }
-      }
-        if(controls.getObject().position.x < -270 && controls.getObject().position.x > -310){
-          if(controls.getObject().position.z < 170 && controls.getObject().position.z > 130){
-            scene.remove(skul);
-            skull = true;
+            skul.position.set(0,0,0);
+            scene.add(skul);
           }
         }
+      }
+      if(controls.getObject().position.x < -270 && controls.getObject().position.x > -310){
+        if(controls.getObject().position.z < 170 && controls.getObject().position.z > 130){
+          scene.remove(skul);
+          skull = true;
+        }
+      }
     }
     if ( onObject === true ) { // Collisions - Modifier
       velocity.y = Math.max( 0, velocity.y );
@@ -459,62 +459,62 @@ function onResize() {
 }
 var controller = new function() {
 
-     this.positionX = 0;
-     this.positionY = 0;
-     this.positionZ = 0;
-     this.position2X = 0;
-     this.position2Y = 0;
-     this.position2Z = 0;
-     this.speed = 0;
-     this.jump = velocity.y;
+  this.positionX = 0;
+  this.positionY = 0;
+  this.positionZ = 0;
+  this.position2X = 0;
+  this.position2Y = 0;
+  this.position2Z = 0;
+  this.speed = 0;
+  this.jump = velocity.y;
 
 
-   }();
+}();
 
 function buildGui() {
   gui = new dat.GUI();
   var f2 = gui.addFolder('Position Lune');
-     f2.add(controller, 'positionX', -2000, 2000).onChange( function() {
-        meshMoon.position.x = (controller.positionX);
-     });
-     f2.add(controller, 'positionY', -1000, 1000).onChange( function() {
-        meshMoon.position.y = (controller.positionY);
-     });
-     f2.add(controller, 'positionZ', -2000, 2000).onChange( function() {
-        meshMoon.position.z = (controller.positionZ);
-     });
-     var f3 = gui.addFolder('Position Soleil');
-    f3.add(controller, 'position2X', -2000, 2000).onChange( function() {
-      meshSun.position.x = (controller.position2X);
-    });
-    f3.add(controller, 'position2Y', -1000, 1000).onChange( function() {
-      meshSun.position.y = (controller.position2Y);
-    });
-    f3.add(controller, 'position2Z', -2000, 2000).onChange( function() {
-      meshSun.position.z = (controller.position2Z);
-    });
-    var f1 = gui.addFolder('Cycle Jour/Nuit');
-      f1.add(controller,'speed', 1  ,15 ).onChange(function(){
+  f2.add(controller, 'positionX', -2000, 2000).onChange( function() {
+    meshMoon.position.x = (controller.positionX);
+  });
+  f2.add(controller, 'positionY', -1000, 1000).onChange( function() {
+    meshMoon.position.y = (controller.positionY);
+  });
+  f2.add(controller, 'positionZ', -2000, 2000).onChange( function() {
+    meshMoon.position.z = (controller.positionZ);
+  });
+  var f3 = gui.addFolder('Position Soleil');
+  f3.add(controller, 'position2X', -2000, 2000).onChange( function() {
+    meshSun.position.x = (controller.position2X);
+  });
+  f3.add(controller, 'position2Y', -1000, 1000).onChange( function() {
+    meshSun.position.y = (controller.position2Y);
+  });
+  f3.add(controller, 'position2Z', -2000, 2000).onChange( function() {
+    meshSun.position.z = (controller.position2Z);
+  });
+  var f1 = gui.addFolder('Cycle Jour/Nuit');
+  f1.add(controller,'speed', 1  ,15 ).onChange(function(){
 
-        meshSun.position.y = 1000*Math.sin((t + controller.speed)* 0.01);
-        meshSun.position.z = 1000*Math.cos((t + controller.speed) * 0.01);
-        console.log(t);
+    meshSun.position.y = 1000*Math.sin((t + controller.speed)* 0.01);
+    meshSun.position.z = 1000*Math.cos((t + controller.speed) * 0.01);
+    console.log(t);
 
-        spotLightSun.position.y = 1000*Math.sin((t + controller.speed)* 0.01);
-        spotLightSun.position.z = 1000*Math.cos((t + controller.speed)* 0.01);
-        meshMoon.position.y = -1000*Math.sin((t + controller.speed) * 0.01);
-        meshMoon.position.z = -1000*Math.cos((t + controller.speed) * 0.01);
-        spotLightMoon.position.y = -1000*Math.sin((t + controller.speed)* 0.01);
-        spotLightMoon.position.z = -1000*Math.cos((t + controller.speed)* 0.01);
+    spotLightSun.position.y = 1000*Math.sin((t + controller.speed)* 0.01);
+    spotLightSun.position.z = 1000*Math.cos((t + controller.speed)* 0.01);
+    meshMoon.position.y = -1000*Math.sin((t + controller.speed) * 0.01);
+    meshMoon.position.z = -1000*Math.cos((t + controller.speed) * 0.01);
+    spotLightMoon.position.y = -1000*Math.sin((t + controller.speed)* 0.01);
+    spotLightMoon.position.z = -1000*Math.cos((t + controller.speed)* 0.01);
 
-      });
-    var f4 = gui.addFolder('Changer la taille des sauts');
-        f4.add(controller,'jump',0,600).onChange(function(){
+  });
+  var f4 = gui.addFolder('Changer la taille des sauts');
+  f4.add(controller,'jump',0,600).onChange(function(){
 
-          velocity.y = controller.jump;
+    velocity.y = controller.jump;
 
 
-        });
+  });
 
 
   gui.open();

@@ -27,27 +27,27 @@ function makeFloor(path,size,finalSize){
   for(j = 0; j*size < finalSize/2;j++)
   {
     for(i = 0;i*size < finalSize/2;i++){
-        var flooor = floor.clone();
-        flooor.position.set(size*i,0,j*size);
-        scene.add(flooor);
+      var flooor = floor.clone();
+      flooor.position.set(size*i,0,j*size);
+      scene.add(flooor);
     }
     for(i = 0;i*size < finalSize/2;i++){
-        var flooor = floor.clone();
-        flooor.position.set(-size*i,0,j*size);
-        scene.add(flooor);
+      var flooor = floor.clone();
+      flooor.position.set(-size*i,0,j*size);
+      scene.add(flooor);
     }
   }
   for(j = 0; j*size < finalSize/2;j++)
   {
     for(i = 0;i*size < finalSize/2;i++){
-        var flooor = floor.clone();
-        flooor.position.set(size*i,0,j*-size);
-        scene.add(flooor);
+      var flooor = floor.clone();
+      flooor.position.set(size*i,0,j*-size);
+      scene.add(flooor);
     }
     for(i = 0;i*size < finalSize/2;i++){
-        var flooor = floor.clone();
-        flooor.position.set(-size*i,0,j*-size);
-        scene.add(flooor);
+      var flooor = floor.clone();
+      flooor.position.set(-size*i,0,j*-size);
+      scene.add(flooor);
     }
   }
 }
