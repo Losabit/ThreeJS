@@ -211,6 +211,24 @@ function init() {
     spider.receiveShadow = true;
     scene.add( spider );
 */
+/*
+  var loader = new THREE.ColladaLoader();
+  loader.load( 'model/stormtrooper.dae', function ( collada ) {
+    var animations = collada.animations;
+    var avatar = collada.scene;
+    avatar.traverse( function ( node ) {
+      if ( node.isSkinnedMesh ) {
+        node.frustumCulled = false;
+      }
+    } );
+    mixer = new THREE.AnimationMixer( avatar );
+    var action = mixer.clipAction( animations[ 0 ] ).play();
+    avatar.scale.set(8,8,8);
+    avatar.position.set(0, 0, 0);
+    scene.add( avatar );
+  } );
+*/
+
   } );
 
   var loader = new THREE.ColladaLoader( loadingManager );
