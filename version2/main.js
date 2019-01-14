@@ -21,7 +21,7 @@ if ( havePointerLock ) {
       blocker.style.display = 'none';
     } else {
       controls.enabled = false;
-      
+
       blocker.style.display = 'block';
 
       instructions.style.display = '';
@@ -205,11 +205,12 @@ function init() {
     skul.castShadow = true;
     skul.receiveShadow = true;
     scene.add( skul );
-
-    /*  spider.scale.set(0.5,0.5,0.5);
+/*
+    spider.scale.set(0.5,0.5,0.5);
     spider.castShadow = true;
     spider.receiveShadow = true;
-    scene.add( spider ); */
+    scene.add( spider );
+*/
   } );
 
   var loader = new THREE.ColladaLoader( loadingManager );
