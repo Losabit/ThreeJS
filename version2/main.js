@@ -466,7 +466,7 @@ function animate() {
     }
     prevTime = time;
   }
-  renderer.render( scene, camera );
+  render();
 }
 
 function onResize() {
