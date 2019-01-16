@@ -97,6 +97,7 @@ function init() {
   controls = new THREE.PointerLockControls( camera );
   scene.add( controls.getObject() );
 
+  clock = new THREE.Clock();
 
 
 
