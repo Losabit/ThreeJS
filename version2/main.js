@@ -179,6 +179,18 @@ function init() {
     tree4 = tree.clone();
     tree4.position.set(-550,0,-650);
     scene.add( tree4 );
+
+    tree5 = tree.clone();
+    tree5.position.set(-603,0,562);
+    scene.add( tree5 );
+
+    tree6 = tree.clone();
+    tree6.position.set(694,0,-462);
+    scene.add( tree6 );
+
+    tree7 = tree.clone();
+    tree7.position.set(556,0,682);
+    scene.add( tree7 );
     //creation de la torche et de ses clones
     torch.scale.set(0.5,0.5,0.5);
     torch.position.set(-20,0,-180);
@@ -399,7 +411,8 @@ function animate() {
       hemiLight.intensity = Math.sin(t* 0.01);
     }
   }
-
+  console.log("x : " + controls.getObject().position.x);
+  console.log("z : " + controls.getObject().position.z);
   // if ( controls.isLoced === true){
   if ( controlsEnabled === true ) {
     raycaster.ray.origin.copy( controls.getObject().position );
