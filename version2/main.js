@@ -142,19 +142,38 @@ function init() {
     soundf3.play();
   });
 
-  var loade = new THREE.ColladaLoader();
-  loade.load( 'collada/stormtrooper.dae', function ( collada ) {
-    var animations = collada.animations;
-    var avatar = collada.scene;
-    avatar.traverse( function ( node ) {
-      if ( node.isSkinnedMesh ) {
-        node.frustumCulled = false;
-      }
+
+    var loade = new THREE.ColladaLoader();
+    loade.load( 'collada/Bellydancing.dae', function ( collada ) {
+      var animations = collada.animations;
+      var avatar = collada.scene;
+      avatar.traverse( function ( node ) {
+        if ( node.isSkinnedMesh ) {
+          node.frustumCulled = false;
+        }
+      } );
+      mixer = new THREE.AnimationMixer( avatar );
+      avatar.scale.set(0.2,0.2,0.2);
+      avatar.position.set(-50, 0, -120);
+      var action = mixer.clipAction( animations[ 0 ] ).play();
+      scene.add( avatar );
     } );
-    mixer = new THREE.AnimationMixer( avatar );
-    var action = mixer.clipAction( animations[ 0 ] ).play();
-    scene.add( avatar );
-  } );
+
+    var loadw = new THREE.ColladaLoader();
+    loadw.load( 'collada/wolf.dae', function ( collada ) {
+      var animationsw = collada.animations;
+      var avatarw = collada.scene;
+      avatarw.traverse( function ( node ) {
+        if ( node.isSkinnedMesh ) {
+          node.frustumCulled = false;
+        }
+      } );
+      mixerw = new THREE.AnimationMixer( avatarw );
+      avatarw.scale.set(3, 3, 3);
+      avatarw.position.set(0, 0, 0);
+      var actionw = mixerw.clipAction( animationsw[ 0 ] ).play();
+      scene.add( avatarw );
+    } );
 
   var loadingManager = new THREE.LoadingManager( function () {
     tree.scale.set(1,1,1);
