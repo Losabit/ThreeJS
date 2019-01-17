@@ -2,6 +2,7 @@
 // http://www.html5rocks.com/en/tutorials/pointerlock/intro/
 
 var camera, scene, renderer, controls;
+var mixer;
 var spotLight, lightHelper, shadowCameraHelper;
 var gui;
 var objects = []; // Permet de stocker les objets où on veut faire les colisions
@@ -82,6 +83,7 @@ function init() {
   camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 100000 );
   scene = new THREE.Scene();
   scene.background = new THREE.Color( 0xffffff );
+  clock = new THREE.Clock();
   //scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 
 
@@ -139,6 +141,20 @@ function init() {
     soundf3.setVolume( 2 );
     soundf3.play();
   });
+
+  var loade = new THREE.ColladaLoader();
+  loade.load( 'collada/stormtrooper.dae', function ( collada ) {
+    var animations = collada.animations;
+    var avatar = collada.scene;
+    avatar.traverse( function ( node ) {
+      if ( node.isSkinnedMesh ) {
+        node.frustumCulled = false;
+      }
+    } );
+    mixer = new THREE.AnimationMixer( avatar );
+    var action = mixer.clipAction( animations[ 0 ] ).play();
+    scene.add( avatar );
+  } );
 
   var loadingManager = new THREE.LoadingManager( function () {
     tree.scale.set(1,1,1);
@@ -365,7 +381,7 @@ function init() {
 
   makeFloor('images/floor2.jpg',100,2000);
   skyBox();
-  renderer = new THREE.WebGLRenderer();
+  renderer = new THREE.WebGLRenderer(  { antialias: true } );
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
@@ -468,7 +484,7 @@ function animate() {
     }
     prevTime = time;
   }
-  renderer.render( scene, camera );
+  render();
 }
 
 function onResize() {
@@ -541,4 +557,12 @@ function buildGui() {
 
 }
 buildGui();
-render();
+
+function render() {
+  var delta = clock.getDelta();
+  if ( mixer !== undefined ) {
+    mixer.update( delta );
+  }
+  renderer.render( scene, camera );
+}
+//render();
