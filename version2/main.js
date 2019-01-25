@@ -450,6 +450,7 @@ function animate() {
   }
   console.log("x : " + controls.getObject().position.x);
   console.log("z : " + controls.getObject().position.z);
+  console.log("y : " + controls.getObject().position.y);
   // if ( controls.isLoced === true){
   if ( controlsEnabled === true ) {
     raycaster.ray.origin.copy( controls.getObject().position );
@@ -483,6 +484,14 @@ function animate() {
       velocity.z = 0;
       moveBackward = false;
     }
+
+    if(controls.getObject().position.x >= 5 && controls.getObject().position.x <= 315 ){
+      if(controls.getObject().position.z >= -395 && controls.getObject().position.z <= -95){
+          moveForward = false;
+      }
+    }
+
+
     if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
     if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
     if (take){

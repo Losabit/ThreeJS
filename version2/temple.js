@@ -13,7 +13,7 @@ function makeTemple(size,sizediff,hauteur,posx,posz){
   var geometry = new THREE.BoxBufferGeometry( 10, hypothenuse, size/6 );
   var rampe = new THREE.Mesh( geometry, material );
   rampe.position.set(posx + (size - (4*sizediff))/2, hauteur * 4, posz );
-  var angle = Math.acos((sizediff * 4) / hypothenuse)- Math.PI/4 ;
+  var angle = Math.acos((sizediff * 4) / hypothenuse)- Math.PI/4 - 5*(Math.PI/180);
   //	var angle = Math.acos((sizediff * 4) / hypothenuse)/2;
   rampe.rotation.set(0, 0, angle - 0.1);
   rampe.castShadow = true;
@@ -57,7 +57,7 @@ function escalierTemple(it,rampe,size,sizediff,hauteur,posx,posz){
       posz = posz - size + sizediff * 4;
     }
     mesh.position.set(x, hauteur * 4, posz );
-    var angle = Math.acos((sizediff * 4) / hypothenuse) - Math.PI/4 ;
+    var angle = Math.acos((sizediff * 4) / hypothenuse) - Math.PI/4 + -5*(Math.PI/180);
     mesh.rotation.set(0, rotx, -angle + 0.1);
     mesh.castShadow = true;
     escalierTemple(it+1,mesh,size,sizediff,hauteur,posx,posz);
