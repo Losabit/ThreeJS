@@ -143,37 +143,10 @@ function init() {
   });
 
 
-    var loade = new THREE.ColladaLoader();
-    loade.load( 'collada/Bellydancing.dae', function ( collada ) {
-      var animations = collada.animations;
-      var avatar = collada.scene;
-      avatar.traverse( function ( node ) {
-        if ( node.isSkinnedMesh ) {
-          node.frustumCulled = false;
-        }
-      } );
-      mixer = new THREE.AnimationMixer( avatar );
-      avatar.scale.set(0.2,0.2,0.2);
-      avatar.position.set(-50, 0, -120);
-      var action = mixer.clipAction( animations[ 0 ] ).play();
-      scene.add( avatar );
-    } );
+makeBelly(-50, 0, -240)
 
-    var loadw = new THREE.ColladaLoader();
-    loadw.load( 'collada/wolf.dae', function ( collada ) {
-      var animationsw = collada.animations;
-      var avatarw = collada.scene;
-      avatarw.traverse( function ( node ) {
-        if ( node.isSkinnedMesh ) {
-          node.frustumCulled = false;
-        }
-      } );
-      mixerw = new THREE.AnimationMixer( avatarw );
-      avatarw.scale.set(3, 3, 3);
-      avatarw.position.set(0, 0, 0);
-      var actionw = mixerw.clipAction( animationsw[ 0 ] ).play();
-      scene.add( avatarw );
-    } );
+makewolf (-50, 0, -150);
+
 
   var loadingManager = new THREE.LoadingManager( function () {
     tree.scale.set(1,1,1);
@@ -217,7 +190,6 @@ function init() {
     torch.receiveShadow = true;
     scene.add( torch );
 
-
     torch1 = torch.clone();
     torch1.position.set(-20,0,-300);
     scene.add( torch1 );
@@ -252,29 +224,6 @@ function init() {
     skul.castShadow = true;
     skul.receiveShadow = true;
     scene.add( skul );
-/*
-    spider.scale.set(0.5,0.5,0.5);
-    spider.castShadow = true;
-    spider.receiveShadow = true;
-    scene.add( spider );
-*/
-/*
-  var loader = new THREE.ColladaLoader();
-  loader.load( 'model/stormtrooper.dae', function ( collada ) {
-    var animations = collada.animations;
-    var avatar = collada.scene;
-    avatar.traverse( function ( node ) {
-      if ( node.isSkinnedMesh ) {
-        node.frustumCulled = false;
-      }
-    } );
-    mixer = new THREE.AnimationMixer( avatar );
-    var action = mixer.clipAction( animations[ 0 ] ).play();
-    avatar.scale.set(8,8,8);
-    avatar.position.set(0, 0, 0);
-    scene.add( avatar );
-  } );
-*/
 
   } );
 
@@ -315,8 +264,6 @@ function init() {
 
   stats = new Stats();
   container.appendChild( stats.dom );
-  //  controls.target.copy( mesh.position );
-  //  controls.update();
 
   // -----------------------------------------------------------
 
@@ -354,7 +301,7 @@ function init() {
       canJump = true;
 
       if ( canJump === true ) velocity.y += 500; //Hauteur du saut
-      canJump = false; //On peut pas sauter quand on a dejà sauté
+      //canJump = false; //On peut pas sauter quand on a dejà sauté
       break;
 
     }
@@ -391,19 +338,6 @@ function init() {
   //Permet de tester en boucle s'ils sont lockés
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
-
-
-
-
-  //  var boxGeo = new THREE.boxGeometry(20, 20, 20);
-  //  var boxMate = new THREE.Color(0xffffff);
-
-  //  scene.add(boxy);
-  //  objects.push(boxy);
-
-
-
-
 
 
   //Rayon qui test les collisions - permet de marcher sur les objets
@@ -588,22 +522,8 @@ function buildGui() {
   f4.add(controller,'jump',0,600).onChange(function(){
 
     velocity.y = controller.jump;
-
-
   });
 
-
   gui.open();
-
-
 }
 buildGui();
-
-function render() {
-  var delta = clock.getDelta();
-  if ( mixer !== undefined ) {
-    mixer.update( delta );
-  }
-  renderer.render( scene, camera );
-}
-//render();
