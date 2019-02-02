@@ -147,6 +147,7 @@ makeBelly(-50, 0, -240)
 
 makewolf (-50, 0, -150);
 
+makespider (-80, 0, -150);
 
   var loadingManager = new THREE.LoadingManager( function () {
     tree.scale.set(1,1,1);
