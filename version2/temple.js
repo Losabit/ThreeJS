@@ -40,7 +40,7 @@ function escalierTemple(it,rampe,size,sizediff,hauteur,posx,posz){
     var texture = new THREE.TextureLoader().load('images/marchetemple.jpg');
     var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
     var hypothenuse = Math.sqrt(Math.pow(hauteur * 9,2) + Math.pow(sizediff * 4,2));
-    var geometry = new THREE.BoxBufferGeometry( 10, hypothenuse, size/6 );
+    var geometry = new THREE.BoxBufferGeometry( 10 + 10, hypothenuse, size/6 );
     var mesh = new THREE.Mesh( geometry, material );
     if(it == 1){
       var x = (-size + (4*sizediff))/2 + posx;
