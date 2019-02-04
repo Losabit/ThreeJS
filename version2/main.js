@@ -301,8 +301,8 @@ makespider (-80, 0, -150);
 
       canJump = true;
 
-      if ( canJump === true ) velocity.y += 500; //Hauteur du saut
-      //canJump = false; //On peut pas sauter quand on a dejà sauté
+      if ( canJump === true ) velocity.y += 100; //Hauteur du saut
+      canJump = false; //On peut pas sauter quand on a dejà sauté
       break;
 
     }
