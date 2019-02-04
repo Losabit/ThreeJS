@@ -1,7 +1,7 @@
 /////////FUNCTIONS TEMPLE///////////
 
 function makeTemple(size,sizediff,hauteur,posx,posz){
-  var texture = new THREE.TextureLoader().load('images/templeMousse.jpg');
+  var texture = new THREE.TextureLoader().load('images/imagetemple.jpg');
   var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
   var geometry = new THREE.BoxBufferGeometry( size, hauteur, size );
   var base = new THREE.Mesh( geometry, material );
@@ -24,7 +24,7 @@ function makeTemple(size,sizediff,hauteur,posx,posz){
 function baseTemple(it,base,size,sizediff,hauteur,posx,posz){
   scene.add( base );
   if(it < 9){
-    var texture = new THREE.TextureLoader().load('images/templeMousse.jpg');
+    var texture = new THREE.TextureLoader().load('images/imagetemple.jpg');
     var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
     var geometry = new THREE.BoxBufferGeometry( size-sizediff, hauteur, size-sizediff );
     var mesh = new THREE.Mesh( geometry, material );
@@ -37,7 +37,7 @@ function baseTemple(it,base,size,sizediff,hauteur,posx,posz){
 function escalierTemple(it,rampe,size,sizediff,hauteur,posx,posz){
   scene.add( rampe );
   if(it < 4){
-    var texture = new THREE.TextureLoader().load('images/templeMousse.jpg');
+    var texture = new THREE.TextureLoader().load('images/marchetemple.jpg');
     var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
     var hypothenuse = Math.sqrt(Math.pow(hauteur * 9,2) + Math.pow(sizediff * 4,2));
     var geometry = new THREE.BoxBufferGeometry( 10, hypothenuse, size/6 );
@@ -66,7 +66,7 @@ function escalierTemple(it,rampe,size,sizediff,hauteur,posx,posz){
 
 
 function hautTemple(size,sizediff,hauteur,posx,posz){
-  var texture = new THREE.TextureLoader().load('images/templeMousse.jpg');
+  var texture = new THREE.TextureLoader().load('images/imagetemple.jpg');
   var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
   var geometry = new THREE.BoxBufferGeometry( size - (10 * sizediff), hauteur * 3, size - (10 * sizediff));
   var haut = new THREE.Mesh( geometry, material );
