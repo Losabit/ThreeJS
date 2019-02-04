@@ -11,6 +11,8 @@ var blocker = document.getElementById( 'blocker' );
 var instructions = document.getElementById( 'instructions' );
 var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
+  var dep = -50;
+
 if ( havePointerLock ) {
   var element = document.body;
   var pointerlockchange = function ( event ) {
@@ -143,10 +145,8 @@ function init() {
   });
 
 
-makeBelly(-50, 0, -240)
-
-makewolf (-50, 0, -150);
-
+makeBelly(-50, 0, -240);
+makewolf (dep, 0, -150);
 makespider (-80, 0, -150);
 
   var loadingManager = new THREE.LoadingManager( function () {
@@ -367,6 +367,7 @@ function animate() {
   stats.update();
   t += 0.1;
   if(t > 0){
+//    dep += t*5;
     meshSun.position.y = 1000*Math.sin(t * 0.01);
     meshSun.position.z = 1000*Math.cos(t * 0.01);
     spotLightSun.position.y = 1000*Math.sin(t* 0.01);
@@ -375,7 +376,6 @@ function animate() {
     meshMoon.position.z = -1000*Math.cos(t * 0.01);
     spotLightMoon.position.y = -1000*Math.sin(t* 0.01);
     spotLightMoon.position.z = -1000*Math.cos(t * 0.01);
-
     if(-1000*Math.sin(t * 0.01) > 50){
       hemiLight.intensity = 0.3;
     }
@@ -399,6 +399,7 @@ function animate() {
     velocity.z -= velocity.z * 10.0 * delta;
     velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
     // Calcul en x et z pour les déplacement
+
     direction.z = Number( moveForward ) - Number( moveBackward );
     direction.x = Number( moveLeft ) - Number( moveRight );
     direction.normalize(); // this ensures consistent movements in all directions
