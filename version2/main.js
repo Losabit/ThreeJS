@@ -72,6 +72,7 @@ var moveRight = false;
 var canJump = false;
 var take = false;
 var skull = false;
+var wolf;
 
 var prevTime = performance.now(); // Pour se faire dans le temps
 var velocity = new THREE.Vector3();
@@ -143,10 +144,8 @@ function init() {
   });
 
 
-makeBelly(-50, 0, -240)
-
+makeBelly(-50, 0, -240);
 makewolf (-50, 0, -150);
-
 
   var loadingManager = new THREE.LoadingManager( function () {
     tree.scale.set(1,1,1);
@@ -228,6 +227,7 @@ makewolf (-50, 0, -150);
   } );
 
   var loader = new THREE.ColladaLoader( loadingManager );
+
   loader.load('collada/tree1.dae', function ( collada ) {
     tree = collada.scene;
   } );
@@ -376,7 +376,7 @@ function animate() {
     spotLightMoon.position.z = -1000*Math.cos(t * 0.01);
 
     if(-1000*Math.sin(t * 0.01) > 50){
-      hemiLight.intensity = 0.3;
+      hemiLight.intensity = 0.1;
     }
     else{
       hemiLight.intensity = Math.sin(t* 0.01);
@@ -421,7 +421,10 @@ function animate() {
 
     if(controls.getObject().position.x >= 5 && controls.getObject().position.x <= 315 ){
       if(controls.getObject().position.z >= -395 && controls.getObject().position.z <= -95){
+      //  if(controls.getObject().position.y <= 20){
           moveForward = false;
+        //  controls.getObject().position.y = 40;
+  //    }
       }
     }
 
