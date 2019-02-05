@@ -74,6 +74,7 @@ var moveRight = false;
 var canJump = false;
 var take = false;
 var skull = false;
+var wolf;
 
 var prevTime = performance.now(); // Pour se faire dans le temps
 var velocity = new THREE.Vector3();
@@ -229,6 +230,7 @@ makespider (-80, 0, -150);
   } );
 
   var loader = new THREE.ColladaLoader( loadingManager );
+
   loader.load('collada/tree1.dae', function ( collada ) {
     tree = collada.scene;
   } );
