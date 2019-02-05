@@ -7,6 +7,7 @@ function makeTemple(size,sizediff,hauteur,posx,posz){
   var base = new THREE.Mesh( geometry, material );
   base.position.set( posx, 10, posz );
   base.castShadow = true;
+  base.receiveShadow = true;
   baseTemple(1,base,size,sizediff,hauteur,posx,posz);
 
   var hypothenuse = Math.sqrt(Math.pow(hauteur * 9,2) + Math.pow(sizediff * 4,2));
@@ -17,6 +18,7 @@ function makeTemple(size,sizediff,hauteur,posx,posz){
   //	var angle = Math.acos((sizediff * 4) / hypothenuse)/2;
   rampe.rotation.set(0, 0, angle - 0.1);
   rampe.castShadow = true;
+  rampe.receiveShadow = true;
   escalierTemple(1,rampe,size,sizediff,hauteur,posx,posz);
   hautTemple(size,sizediff,hauteur,posx,posz);
 }
@@ -60,6 +62,7 @@ function escalierTemple(it,rampe,size,sizediff,hauteur,posx,posz){
     var angle = Math.acos((sizediff * 4) / hypothenuse) - Math.PI/4 + -5*(Math.PI/180);
     mesh.rotation.set(0, rotx, -angle + 0.1);
     mesh.castShadow = true;
+    mesh.receiveShadow = true;
     escalierTemple(it+1,mesh,size,sizediff,hauteur,posx,posz);
   }
 }

@@ -11,7 +11,6 @@ var blocker = document.getElementById( 'blocker' );
 var instructions = document.getElementById( 'instructions' );
 var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
-  var dep = -50;
 
 if ( havePointerLock ) {
   var element = document.body;
@@ -74,7 +73,6 @@ var moveRight = false;
 var canJump = false;
 var take = false;
 var skull = false;
-var wolf;
 
 var prevTime = performance.now(); // Pour se faire dans le temps
 var velocity = new THREE.Vector3();
@@ -147,8 +145,8 @@ function init() {
 
 
 makeBelly(-50, 0, -240);
-makewolf (dep, 0, -150);
-makespider (-80, 0, -150);
+makewolf (-50, 0, -100);
+makespider (-140, 0, -150);
 
   var loadingManager = new THREE.LoadingManager( function () {
     tree.scale.set(1,1,1);
@@ -230,7 +228,6 @@ makespider (-80, 0, -150);
   } );
 
   var loader = new THREE.ColladaLoader( loadingManager );
-
   loader.load('collada/tree1.dae', function ( collada ) {
     tree = collada.scene;
   } );
@@ -368,8 +365,10 @@ function animate() {
   requestAnimationFrame( animate );
   stats.update();
   t += 0.1;
+
   if(t > 0){
 //    dep += t*5;
+//    avatarwolf.position.y = t * 2;
     meshSun.position.y = 1000*Math.sin(t * 0.01);
     meshSun.position.z = 1000*Math.cos(t * 0.01);
     spotLightSun.position.y = 1000*Math.sin(t* 0.01);
@@ -378,6 +377,7 @@ function animate() {
     meshMoon.position.z = -1000*Math.cos(t * 0.01);
     spotLightMoon.position.y = -1000*Math.sin(t* 0.01);
     spotLightMoon.position.z = -1000*Math.cos(t * 0.01);
+
     if(-1000*Math.sin(t * 0.01) > 50){
       hemiLight.intensity = 0.3;
     }
@@ -444,6 +444,7 @@ function animate() {
       if(controls.getObject().position.x < -270 && controls.getObject().position.x > -310){
         if(controls.getObject().position.z < 170 && controls.getObject().position.z > 130){
           scene.remove(skul);
+
           skull = true;
         }
       }
