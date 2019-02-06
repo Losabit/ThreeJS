@@ -396,7 +396,10 @@ function animate() {
     var delta = ( time - prevTime ) / 500; //C'est ici qu'on change la vitesse de déplacement
     velocity.x -= velocity.x * 10.0 * delta;
     velocity.z -= velocity.z * 10.0 * delta;
-    velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+
+    if(  controls.getObject().position.y > 280){
+      velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+    }
     // Calcul en x et z pour les déplacement
     direction.z = Number( moveForward ) - Number( moveBackward );
     direction.x = Number( moveLeft ) - Number( moveRight );
@@ -421,12 +424,46 @@ function animate() {
 
     if(controls.getObject().position.x >= 5 && controls.getObject().position.x <= 315 ){
       if(controls.getObject().position.z >= -395 && controls.getObject().position.z <= -95){
-      //  if(controls.getObject().position.y <= 20){
+        if(controls.getObject().position.y >= 85){
           moveForward = false;
-        //  controls.getObject().position.y = 40;
-  //    }
+         controls.getObject().position.y = 120;
+        }
+      else if(controls.getObject().position.y >= 60){
+          moveForward = false;
+         controls.getObject().position.y = 80;
+        }
+        else if(controls.getObject().position.y >= 20){
+          moveForward = false;
+         controls.getObject().position.y = 40;
+       }
+       else if(controls.getObject().position.y >= 10){
+         moveForward = false;
+      }
       }
     }
+
+    if(controls.getObject().position.y >= 110){
+          if(controls.getObject().position.x >= 25 && controls.getObject().position.x <= 295 ){
+            if(controls.getObject().position.z >= -375 && controls.getObject().position.z <= -115){
+              if(controls.getObject().position.y >= 245){
+                moveForward = false;
+               controls.getObject().position.y = 280;
+              }
+              else if(controls.getObject().position.y >= 205){
+                moveForward = false;
+               controls.getObject().position.y = 240;
+              }
+              else if(controls.getObject().position.y >= 165){
+                moveForward = false;
+               controls.getObject().position.y = 200;
+              }
+              else if(controls.getObject().position.y >= 125){
+              moveForward = false;
+               controls.getObject().position.y = 160;
+              }
+            }
+          }
+        }
 
 
     if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
@@ -460,6 +497,7 @@ function animate() {
       controls.getObject().position.y = 10;
       canJump = true;
     }
+
     prevTime = time;
   }
   render();
