@@ -11,7 +11,6 @@ var blocker = document.getElementById( 'blocker' );
 var instructions = document.getElementById( 'instructions' );
 var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
-
 if ( havePointerLock ) {
   var element = document.body;
   var pointerlockchange = function ( event ) {
@@ -73,6 +72,7 @@ var moveRight = false;
 var canJump = false;
 var take = false;
 var skull = false;
+var wolf;
 
 var prevTime = performance.now(); // Pour se faire dans le temps
 var velocity = new THREE.Vector3();
@@ -96,6 +96,11 @@ function init() {
 
   var container = document.getElementById( 'container' );
 
+
+  //  renderer.shadowMap.enabled = true;
+  //  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  //  renderer.gammaInput = true;
+  //  renderer.gammaOutput = true;
 
 
   makeSun(2000,1000,2000);
@@ -139,9 +144,7 @@ function init() {
   });
 
 
-makeBelly(-50, 0, -240);
-makewolf (-50, 0, -100);
-makespider (-140, 0, -150);
+makewolf (-50, 0, -150);
 
   var loadingManager = new THREE.LoadingManager( function () {
     tree.scale.set(1,1,1);
@@ -223,6 +226,7 @@ makespider (-140, 0, -150);
   } );
 
   var loader = new THREE.ColladaLoader( loadingManager );
+
   loader.load('collada/tree1.dae', function ( collada ) {
     tree = collada.scene;
   } );
@@ -254,7 +258,6 @@ makespider (-140, 0, -150);
   mesh.position.set( 0, - 20, 0 );
   mesh.rotation.x = - Math.PI * 0.5;
   mesh.receiveShadow = true;
-  mesh.castShadow= true;
   scene.add( mesh );
   makeTemple(300,20,30,160,-250);
 
@@ -296,8 +299,8 @@ makespider (-140, 0, -150);
 
       canJump = true;
 
-      if ( canJump === true ) velocity.y += 100; //Hauteur du saut
-      canJump = false; //On peut pas sauter quand on a dejà sauté
+      if ( canJump === true ) velocity.y += 500; //Hauteur du saut
+      //canJump = false; //On peut pas sauter quand on a dejà sauté
       break;
 
     }
@@ -345,12 +348,6 @@ makespider (-140, 0, -150);
   renderer = new THREE.WebGLRenderer(  { antialias: true } );
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize( window.innerWidth, window.innerHeight );
-
-
-    //renderer.shadowMap.enabled = true;
-   //renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    //renderer.gammaInput = true;
-      //renderer.gammaOutput = true;
   document.body.appendChild( renderer.domElement );
   window.addEventListener( 'resize', onWindowResize, false );
 }
@@ -367,10 +364,7 @@ function animate() {
   requestAnimationFrame( animate );
   stats.update();
   t += 0.1;
-
   if(t > 0){
-//    dep += t*5;
-//    avatarwolf.position.y = t * 2;
     meshSun.position.y = 1000*Math.sin(t * 0.01);
     meshSun.position.z = 1000*Math.cos(t * 0.01);
     spotLightSun.position.y = 1000*Math.sin(t* 0.01);
@@ -379,16 +373,9 @@ function animate() {
     meshMoon.position.z = -1000*Math.cos(t * 0.01);
     spotLightMoon.position.y = -1000*Math.sin(t* 0.01);
     spotLightMoon.position.z = -1000*Math.cos(t * 0.01);
-    //SspotLight.castShadow = true;
-    spotLightSun.castShadow = true;
-    //spotLightMoon.castShadow = true;
-  //  spotLightSun.shadowDarkness = 0.8;
-    //spotLight.shadowDarkness = 0.8;
-    spotLightMoon.shadowDarkness = 0.8;
-
 
     if(-1000*Math.sin(t * 0.01) > 50){
-      hemiLight.intensity = 0.3;
+      hemiLight.intensity = 0.1;
     }
     else{
       hemiLight.intensity = Math.sin(t* 0.01);
@@ -408,9 +395,11 @@ function animate() {
     var delta = ( time - prevTime ) / 500; //C'est ici qu'on change la vitesse de déplacement
     velocity.x -= velocity.x * 10.0 * delta;
     velocity.z -= velocity.z * 10.0 * delta;
-    velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
-    // Calcul en x et z pour les déplacement
 
+    if(  controls.getObject().position.y > 280){
+      velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+    }
+    // Calcul en x et z pour les déplacement
     direction.z = Number( moveForward ) - Number( moveBackward );
     direction.x = Number( moveLeft ) - Number( moveRight );
     direction.normalize(); // this ensures consistent movements in all directions
@@ -434,9 +423,46 @@ function animate() {
 
     if(controls.getObject().position.x >= 5 && controls.getObject().position.x <= 315 ){
       if(controls.getObject().position.z >= -395 && controls.getObject().position.z <= -95){
+        if(controls.getObject().position.y >= 85){
           moveForward = false;
+         controls.getObject().position.y = 120;
+        }
+      else if(controls.getObject().position.y >= 60){
+          moveForward = false;
+         controls.getObject().position.y = 80;
+        }
+        else if(controls.getObject().position.y >= 20){
+          moveForward = false;
+         controls.getObject().position.y = 40;
+       }
+       else if(controls.getObject().position.y >= 10){
+         moveForward = false;
+      }
       }
     }
+
+    if(controls.getObject().position.y >= 110){
+          if(controls.getObject().position.x >= 25 && controls.getObject().position.x <= 295 ){
+            if(controls.getObject().position.z >= -375 && controls.getObject().position.z <= -115){
+              if(controls.getObject().position.y >= 245){
+                moveForward = false;
+               controls.getObject().position.y = 280;
+              }
+              else if(controls.getObject().position.y >= 205){
+                moveForward = false;
+               controls.getObject().position.y = 240;
+              }
+              else if(controls.getObject().position.y >= 165){
+                moveForward = false;
+               controls.getObject().position.y = 200;
+              }
+              else if(controls.getObject().position.y >= 125){
+              moveForward = false;
+               controls.getObject().position.y = 160;
+              }
+            }
+          }
+        }
 
 
     if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
@@ -445,15 +471,18 @@ function animate() {
       if(skull){
         if(controls.getObject().position.x < -100 && controls.getObject().position.x > -220){
           if(controls.getObject().position.z < -100 && controls.getObject().position.z > -300){
-            skul.position.set(0,0,0);
+            skul.scale.set(0.85,0.85,0.85);
+            skul.position.set(-200,11,-255);
+            skul.rotation.z = 3.14 + 3.14/2;
+            skull = 0;
             scene.add(skul);
+            makeBelly(160, 350, -252);
           }
         }
       }
       if(controls.getObject().position.x < -270 && controls.getObject().position.x > -310){
         if(controls.getObject().position.z < 170 && controls.getObject().position.z > 130){
           scene.remove(skul);
-
           skull = true;
         }
       }
@@ -471,6 +500,7 @@ function animate() {
       controls.getObject().position.y = 10;
       canJump = true;
     }
+
     prevTime = time;
   }
   render();
@@ -481,7 +511,6 @@ function onResize() {
   camera.updateProjectionMatrix();
   renderer.setSize( window.innerWidth, window.innerHeight );
 }
-
 var controller = new function() {
 
   this.positionX = 0;
@@ -523,8 +552,14 @@ function buildGui() {
 
     meshSun.position.y = 1000*Math.sin((t + controller.speed)* 0.01);
     meshSun.position.z = 1000*Math.cos((t + controller.speed) * 0.01);
-  //  console.log(t);
+    console.log(t);
 
+    spotLightSun.position.y = 1000*Math.sin((t + controller.speed)* 0.01);
+    spotLightSun.position.z = 1000*Math.cos((t + controller.speed)* 0.01);
+    meshMoon.position.y = -1000*Math.sin((t + controller.speed) * 0.01);
+    meshMoon.position.z = -1000*Math.cos((t + controller.speed) * 0.01);
+    spotLightMoon.position.y = -1000*Math.sin((t + controller.speed)* 0.01);
+    spotLightMoon.position.z = -1000*Math.cos((t + controller.speed)* 0.01);
 
   });
   var f4 = gui.addFolder('Changer la taille des sauts');

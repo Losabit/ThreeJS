@@ -1,13 +1,12 @@
 /////////FUNCTIONS TEMPLE///////////
 
 function makeTemple(size,sizediff,hauteur,posx,posz){
-  var texture = new THREE.TextureLoader().load('images/imagetemple.jpg');
+  var texture = new THREE.TextureLoader().load('images/templeMousse.jpg');
   var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
   var geometry = new THREE.BoxBufferGeometry( size, hauteur, size );
   var base = new THREE.Mesh( geometry, material );
   base.position.set( posx, 10, posz );
   base.castShadow = true;
-  base.receiveShadow = true;
   baseTemple(1,base,size,sizediff,hauteur,posx,posz);
 
   var hypothenuse = Math.sqrt(Math.pow(hauteur * 9,2) + Math.pow(sizediff * 4,2));
@@ -18,7 +17,6 @@ function makeTemple(size,sizediff,hauteur,posx,posz){
   //	var angle = Math.acos((sizediff * 4) / hypothenuse)/2;
   rampe.rotation.set(0, 0, angle - 0.1);
   rampe.castShadow = true;
-  rampe.receiveShadow = true;
   escalierTemple(1,rampe,size,sizediff,hauteur,posx,posz);
   hautTemple(size,sizediff,hauteur,posx,posz);
 }
@@ -26,7 +24,7 @@ function makeTemple(size,sizediff,hauteur,posx,posz){
 function baseTemple(it,base,size,sizediff,hauteur,posx,posz){
   scene.add( base );
   if(it < 9){
-    var texture = new THREE.TextureLoader().load('images/imagetemple.jpg');
+    var texture = new THREE.TextureLoader().load('images/templeMousse.jpg');
     var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
     var geometry = new THREE.BoxBufferGeometry( size-sizediff, hauteur, size-sizediff );
     var mesh = new THREE.Mesh( geometry, material );
@@ -39,10 +37,10 @@ function baseTemple(it,base,size,sizediff,hauteur,posx,posz){
 function escalierTemple(it,rampe,size,sizediff,hauteur,posx,posz){
   scene.add( rampe );
   if(it < 4){
-    var texture = new THREE.TextureLoader().load('images/marchetemple.jpg');
+    var texture = new THREE.TextureLoader().load('images/templeMousse.jpg');
     var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
     var hypothenuse = Math.sqrt(Math.pow(hauteur * 9,2) + Math.pow(sizediff * 4,2));
-    var geometry = new THREE.BoxBufferGeometry( 10 + 10, hypothenuse, size/6 );
+    var geometry = new THREE.BoxBufferGeometry( 10, hypothenuse, size/6 );
     var mesh = new THREE.Mesh( geometry, material );
     if(it == 1){
       var x = (-size + (4*sizediff))/2 + posx;
@@ -62,14 +60,13 @@ function escalierTemple(it,rampe,size,sizediff,hauteur,posx,posz){
     var angle = Math.acos((sizediff * 4) / hypothenuse) - Math.PI/4 + -5*(Math.PI/180);
     mesh.rotation.set(0, rotx, -angle + 0.1);
     mesh.castShadow = true;
-    mesh.receiveShadow = true;
     escalierTemple(it+1,mesh,size,sizediff,hauteur,posx,posz);
   }
 }
 
 
 function hautTemple(size,sizediff,hauteur,posx,posz){
-  var texture = new THREE.TextureLoader().load('images/imagetemple.jpg');
+  var texture = new THREE.TextureLoader().load('images/templeMousse.jpg');
   var material = new THREE.MeshPhongMaterial( { map: texture, dithering: true } );
   var geometry = new THREE.BoxBufferGeometry( size - (10 * sizediff), hauteur * 3, size - (10 * sizediff));
   var haut = new THREE.Mesh( geometry, material );
