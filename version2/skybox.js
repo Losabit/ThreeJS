@@ -15,39 +15,48 @@ function skyBox(){
 }
 
 function makeFloor(path,size,finalSize){
-  var floorGeometry = new THREE.PlaneBufferGeometry(size, size);
-  floorGeometry.rotateX( - Math.PI / 2 );
-  var floorTexture = new THREE.TextureLoader().load(path);
-  var floorMaterial = new THREE.MeshPhongMaterial( { map: floorTexture, dithering: true } );
-  var floor = new THREE.Mesh( floorGeometry, floorMaterial );
-  floor.receiveShadow = true;
 
-  var i;
-  var j;
-  for(j = 0; j*size < finalSize/2;j++)
-  {
-    for(i = 0;i*size < finalSize/2;i++){
-      var flooor = floor.clone();
-      flooor.position.set(size*i,0,j*size);
-      scene.add(flooor);
-    }
-    for(i = 0;i*size < finalSize/2;i++){
-      var flooor = floor.clone();
-      flooor.position.set(-size*i,0,j*size);
-      scene.add(flooor);
-    }
-  }
-  for(j = 0; j*size < finalSize/2;j++)
-  {
-    for(i = 0;i*size < finalSize/2;i++){
-      var flooor = floor.clone();
-      flooor.position.set(size*i,0,j*-size);
-      scene.add(flooor);
-    }
-    for(i = 0;i*size < finalSize/2;i++){
-      var flooor = floor.clone();
-      flooor.position.set(-size*i,0,j*-size);
-      scene.add(flooor);
-    }
-  }
-}
+  var floorGeometry = new THREE.PlaneBufferGeometry(size, size);
+floorGeometry.rotateX( - Math.PI / 2 );
+ var floorTexture = new THREE.TextureLoader().load(path);
+ floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+ floorTexture.repeat.set( 10, 10 );
+ var floorMaterial = new THREE.MeshPhongMaterial( { map: floorTexture, dithering: true } );
+var floor = new THREE.Mesh( floorGeometry, floorMaterial );
+floor.receiveShadow = true;
+//   var floorGeometry = new THREE.PlaneBufferGeometry(size, size);
+//   floorGeometry.rotateX( - Math.PI / 2 );
+//   var floorTexture = new THREE.TextureLoader().load(path);
+//   var floorMaterial = new THREE.MeshPhongMaterial( { map: floorTexture, dithering: true } );
+//   var floor = new THREE.Mesh( floorGeometry, floorMaterial );
+//   floor.receiveShadow = true;
+//
+//   var i;
+//   var j;
+//   for(j = 0; j*size < finalSize/2;j++)
+//   {
+//     for(i = 0;i*size < finalSize/2;i++){
+//       var flooor = floor.clone();
+//       flooor.position.set(size*i,0,j*size);
+//       scene.add(flooor);
+//     }
+//     for(i = 0;i*size < finalSize/2;i++){
+//       var flooor = floor.clone();
+//       flooor.position.set(-size*i,0,j*size);
+//       scene.add(flooor);
+//     }
+//   }
+//   for(j = 0; j*size < finalSize/2;j++)
+//   {
+//     for(i = 0;i*size < finalSize/2;i++){
+//       var flooor = floor.clone();
+//       flooor.position.set(size*i,0,j*-size);
+//       scene.add(flooor);
+//     }
+//     for(i = 0;i*size < finalSize/2;i++){
+//       var flooor = floor.clone();
+//       flooor.position.set(-size*i,0,j*-size);
+//       scene.add(flooor);
+//     }
+//   }
+// }
