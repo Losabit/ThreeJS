@@ -10,7 +10,7 @@ function makeBelly(posx, posy, posz){
         } );
         mixer = new THREE.AnimationMixer( avatar );
         avatar.scale.set(0.2,0.2,0.2);
-        avatar.position.set(-50, 0, -240);
+        avatar.position.set(posx, posy, posz);
         avatar.rotation.y+=5;
         var action = mixer.clipAction( animations[ 0 ] ).play();
         scene.add( avatar );
