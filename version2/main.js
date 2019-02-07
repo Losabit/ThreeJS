@@ -97,11 +97,6 @@ function init() {
   var container = document.getElementById( 'container' );
 
 
-    renderer.shadowMap.enabled = true;
-   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-   renderer.gammaInput = true;
-    renderer.gammaOutput = true;
-
 
   makeSun(2000,1000,2000);
   makeMoon(2000,-1000,-2000);
@@ -350,6 +345,12 @@ makespider (-140, 0, -150);
   renderer = new THREE.WebGLRenderer(  { antialias: true } );
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize( window.innerWidth, window.innerHeight );
+
+
+    //renderer.shadowMap.enabled = true;
+   //renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    //renderer.gammaInput = true;
+      //renderer.gammaOutput = true;
   document.body.appendChild( renderer.domElement );
   window.addEventListener( 'resize', onWindowResize, false );
 }
@@ -381,8 +382,8 @@ function animate() {
     //SspotLight.castShadow = true;
     spotLightSun.castShadow = true;
     //spotLightMoon.castShadow = true;
-    spotLightSun.shadowDarkness = 0.8;
-    spotLight.shadowDarkness = 0.8;
+  //  spotLightSun.shadowDarkness = 0.8;
+    //spotLight.shadowDarkness = 0.8;
     spotLightMoon.shadowDarkness = 0.8;
 
 
