@@ -97,10 +97,10 @@ function init() {
   var container = document.getElementById( 'container' );
 
 
-  //  renderer.shadowMap.enabled = true;
-  //  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  //  renderer.gammaInput = true;
-  //  renderer.gammaOutput = true;
+    renderer.shadowMap.enabled = true;
+   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+   renderer.gammaInput = true;
+    renderer.gammaOutput = true;
 
 
   makeSun(2000,1000,2000);
@@ -258,6 +258,7 @@ makewolf (-50, 0, -150);
   mesh.position.set( 0, - 20, 0 );
   mesh.rotation.x = - Math.PI * 0.5;
   mesh.receiveShadow = true;
+  mesh.castShadow= true;
   scene.add( mesh );
   makeTemple(300,20,30,160,-250);
 
@@ -373,6 +374,13 @@ function animate() {
     meshMoon.position.z = -1000*Math.cos(t * 0.01);
     spotLightMoon.position.y = -1000*Math.sin(t* 0.01);
     spotLightMoon.position.z = -1000*Math.cos(t * 0.01);
+    //SspotLight.castShadow = true;
+    spotLightSun.castShadow = true;
+    //spotLightMoon.castShadow = true;
+    spotLightSun.shadowDarkness = 0.8;
+    spotLight.shadowDarkness = 0.8;
+    spotLightMoon.shadowDarkness = 0.8;
+
 
     if(-1000*Math.sin(t * 0.01) > 50){
       hemiLight.intensity = 0.1;
@@ -511,6 +519,7 @@ function onResize() {
   camera.updateProjectionMatrix();
   renderer.setSize( window.innerWidth, window.innerHeight );
 }
+
 var controller = new function() {
 
   this.positionX = 0;
@@ -552,14 +561,8 @@ function buildGui() {
 
     meshSun.position.y = 1000*Math.sin((t + controller.speed)* 0.01);
     meshSun.position.z = 1000*Math.cos((t + controller.speed) * 0.01);
-    console.log(t);
+  //  console.log(t);
 
-    spotLightSun.position.y = 1000*Math.sin((t + controller.speed)* 0.01);
-    spotLightSun.position.z = 1000*Math.cos((t + controller.speed)* 0.01);
-    meshMoon.position.y = -1000*Math.sin((t + controller.speed) * 0.01);
-    meshMoon.position.z = -1000*Math.cos((t + controller.speed) * 0.01);
-    spotLightMoon.position.y = -1000*Math.sin((t + controller.speed)* 0.01);
-    spotLightMoon.position.z = -1000*Math.cos((t + controller.speed)* 0.01);
 
   });
   var f4 = gui.addFolder('Changer la taille des sauts');
