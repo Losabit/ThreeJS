@@ -344,7 +344,7 @@ makewolf (-50, 0, -150);
   raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, -1, 0 ), 0, 10 );
 
 
-  makeFloor('images/new_floor.jpg',100,2000);
+  makeFloor('images/new_floor.jpg',2000,2000);
   skyBox();
   renderer = new THREE.WebGLRenderer(  { antialias: true } );
   renderer.setPixelRatio( window.devicePixelRatio );
