@@ -144,7 +144,6 @@ function init() {
   });
 
 
-makeBelly(-50, 0, -240);
 makewolf (-50, 0, -150);
 
   var loadingManager = new THREE.LoadingManager( function () {
@@ -472,8 +471,12 @@ function animate() {
       if(skull){
         if(controls.getObject().position.x < -100 && controls.getObject().position.x > -220){
           if(controls.getObject().position.z < -100 && controls.getObject().position.z > -300){
-            skul.position.set(0,0,0);
+            skul.scale.set(0.85,0.85,0.85);
+            skul.position.set(-200,11,-255);
+            skul.rotation.z = 3.14 + 3.14/2;
+            skull = 0;
             scene.add(skul);
+            makeBelly(160, 350, -252);
           }
         }
       }
